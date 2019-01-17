@@ -4,7 +4,7 @@
 - SSH: By default, you can only connect to the TK1 using ssh password authentication from the local network. In order to connect remotely, you will have to use public key authentication.
 
 # Initial Hardware Setup
-*Note:* Make sure to have a USB-RS232 serial adapter available with Null Modem adapter. This provides a more reliable method of communication with the device than SSH / HDMI when something goes awry.
+*Note:* Make sure to have a USB-RS232 serial adapter available with Null Modem adapter. This provides a more reliable method of communication with the device than SSH / HDMI when something goes awry. **Note that the serial console is unsecured by default**
 ## Flashing the Jetson Tegra TK1
 ### Important Notes BEFORE Flashing
 While you *may* be able to flash using the Jetson Jetpack GUI, I found it more straightforward to reflash from the command line using Ubuntu. If using the offical Jetson Jetpack to flash, it does not work with Ubuntu 18.04+, requires Ubuntu 16.04 (although Nvidia forums have a fix, it appears to only work for newer Jetson models). Unclear if flashing using this method through a VM is possible.
@@ -21,18 +21,18 @@ Flashing the TK1 may be necessary initially or if the system becomes corrupted. 
 
 #### After Flash
 Again, make sure to have serial console access for troubleshooting.
-1. Change password from the default for user ubuntu (the default username)
 ```sh
-passwd
-```
-Make sure to make note of the new password.
-1. Enable the Universe repo and update 
-```sh
+# Change default password for user ubuntu
+# Make sure to make note of the new password.
+sudo passwd ubuntu
+# Enable the Universe repo and update 
 sudo add-apt-repository universe
 sudo apt-get update
 sudo apt-get upgrade
-# Then confirm
+# You may want to install some useful programs at this point
+sudo apt-get install -y tmux htop screen
 ```
+To change the hostname of the device change 'tegra-ubuntu' to the desired new name in `/etc/hostname` and `/etc/hosts`. (This will not change until reboot, so you can either reboot or run `sudo hostname YOUR-NEW-HOSTNAME-HERE` to avoid rebooting.)
 
 # Build Instructions for HackRF Tools
 Follow directions on https://github.com/mossmann/hackrf/tree/master/host
