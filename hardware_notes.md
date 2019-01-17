@@ -6,8 +6,9 @@
 # Initial Hardware Setup
 ## Flashing the Jetson Tegra TK1
 ### Important Notes BEFORE Flashing
-- If using the offical Jetson Jetpack to flash, it does not work with Ubuntu 18.04+. Requires Ubuntu 16.04. Unclear if flashing using this method throug a VM is possible.
-- If on a 64-bit host, see [this post](https://devtalk.nvidia.com/default/topic/1037298/jetson-tk1/flash-tk1-from-ubuntu-18-04-/) for a fix.
+While you *may* be able to flash using the Jetson Jetpack GUI, I found it more straightforward to reflash from the command line using Ubuntu. If using the offical Jetson Jetpack to flash, it does not work with Ubuntu 18.04+, requires Ubuntu 16.04 (although Nvidia forums have a fix, it appears to only work for newer Jetson models). Unclear if flashing using this method through a VM is possible.
+#### Flashing from 64-bit Ubuntu 18.04
+If on a 64-bit host, see [this post](https://devtalk.nvidia.com/default/topic/1037298/jetson-tk1/flash-tk1-from-ubuntu-18-04-/) for a fix:
 ```sh
 # Replace this line of Linux_for_Tegra/flash.sh:
 mkfs -t $4 ${loop_dev} > /dev/null 2>&1;
@@ -15,7 +16,7 @@ mkfs -t $4 ${loop_dev} > /dev/null 2>&1;
 mkfs -t $4 -O ^metadata_csum,^64bit ${loop_dev} > /dev/null 2>&1;
 ```
 
-Flashing the TK1 may be necessary initially or if the system becomes corrupted. To do so, [go to 'Tegra K1' Section](https://developer.nvidia.com/embedded/linux-tegra-archive) and select most recent release. As of the writing of this document, R21.7 is the most recent. Directions for reflashing the device can be found in the *Quick Start Guide*.
+Flashing the TK1 may be necessary initially or if the system becomes corrupted. To do so, [go to 'Tegra K1' Section](https://developer.nvidia.com/embedded/linux-tegra-archive) and select most recent release. As of the writing of this document, R21.7 is the most recent. Directions for reflashing the device can be found in the *Quick Start Guide*, but make sure to observe the notes above.
 
 # Build Instructions for HackRF Tools
 Follow directions on https://github.com/mossmann/hackrf/tree/master/host
