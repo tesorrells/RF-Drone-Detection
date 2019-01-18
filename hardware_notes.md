@@ -6,7 +6,14 @@ Try to use tmux or screen when running imporant commands over ssh, in case the c
 SSH: By default, you can only connect to the TK1 using ssh password authentication from the local network. In order to connect remotely, you will have to use public key authentication.
 
 # Initial Hardware Setup
-*Note:* Make sure to have a USB-RS232 serial adapter available with Null Modem adapter. This provides a more reliable method of communication with the device than SSH / HDMI when something goes awry. **Note that the serial console is unsecured by default**
+*Note:* Make sure to have a USB-RS232 serial adapter available with Null Modem adapter. This provides a more reliable method of communication with the device than SSH / HDMI when something goes awry. **Note that the serial console is unsecured by default.**
+
+Use a program such as *screen* or *minicom* to connect over serial.
+```sh
+# Example using screen
+sudo screen /dev/ttyUSB0 115200
+```
+
 ## Flashing the Jetson Tegra TK1
 ### Important Notes BEFORE Flashing
 While you *may* be able to flash using the Jetson Jetpack GUI, I found it more straightforward to reflash from the command line using Ubuntu. If using the offical Jetson Jetpack to flash, it does not work with Ubuntu 18.04+, requires Ubuntu 16.04 (although Nvidia forums have a fix, it appears to only work for newer Jetson models). Unclear if flashing using this method through a VM is possible.
