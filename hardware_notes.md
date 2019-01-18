@@ -38,6 +38,7 @@ To change the hostname of the device change 'tegra-ubuntu' to the desired new na
 
 ##### SSH Configuration
 **Need to create master `/etc/ssh/sshd_config` so each Jetson has same configuration.** #TODO
+
 Copy pubkeys to the Jetson using `ssh-copy-id -i your-key-here jetson-hostname-here` or manually. #TODO
 
 #### Configure Firewall?
