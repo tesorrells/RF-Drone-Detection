@@ -40,6 +40,9 @@ To change the hostname of the device change 'tegra-ubuntu' to the desired new na
 **Need to create master `/etc/ssh/sshd_config` so each Jetson has same configuration.** #TODO
 Copy pubkeys to the Jetson using `ssh-copy-id -i your-key-here jetson-hostname-here` or manually. #TODO
 
+#### Configure Firewall?
+*We should probably configure some sort of firewall...ufw?* #TODO
+
 # Build Instructions for HackRF Tools
 Follow directions on https://github.com/mossmann/hackrf/tree/master/host
 (This doesn't take very long to build. Maybe a few minutes.)
