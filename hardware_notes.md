@@ -48,6 +48,13 @@ Copy pubkeys to the Jetson using `ssh-copy-id -i your-key-here jetson-hostname-h
 Follow directions on https://github.com/mossmann/hackrf/tree/master/host
 (This doesn't take very long to build. Maybe a few minutes.)
 
+You will also need to make sure that your user (ubuntu) is a member of the *plugdev* group. Simply enter `sudo usermod -a -G plugdev ubuntu`. May require reboot, then type `groups` to verify that ubuntu is a member of *plugdev*. 
+
+The TK1 will auto-suspend the USB by default, so we want to disable this and reboot the tegra. Add the following line to `/etc/rc.local` and then reboot ([source](https://elinux.org/Jetson/Performance#Maximizing_CPU_performance)):
+```
+echo -1 > /sys/module/usbcore/parameters/autosuspend
+```
+
 # Installing GNU Radio
 ~~To install gnuradio, use gnuradios build system called PyBOMBS (link below). The Ubuntu Universe repository version tends to be outdated. Build gnuradio using PyBOMBS from source following [these directions](https://github.com/gnuradio/pybombs/). This takes a significant amount of time. I had trouble using `sudo pip install PyBOMBS`, so instead use `$ [sudo] pip install git+https://github.com/gnuradio/pybombs.git` to install the latest version from git.~~
 ** Still in progress **
