@@ -1,7 +1,9 @@
 # Important Notes
-- IMPORTANT: NEVER run 'sudo apt-get dist-upgrade'. This will overwrite important Jetson Tegra TK1 files and render the system inoperable. Follow NVIDIA's directions for upgrading the system.
-- Try to use tmux or screen when running imporant commands over ssh, in case the connection is lost.
-- SSH: By default, you can only connect to the TK1 using ssh password authentication from the local network. In order to connect remotely, you will have to use public key authentication.
+IMPORTANT: NEVER run 'sudo apt-get dist-upgrade'. This will overwrite important Jetson Tegra TK1 files and render the system inoperable. Follow NVIDIA's directions for upgrading the system.
+
+Try to use tmux or screen when running imporant commands over ssh, in case the connection is lost.
+
+SSH: By default, you can only connect to the TK1 using ssh password authentication from the local network. In order to connect remotely, you will have to use public key authentication.
 
 # Initial Hardware Setup
 *Note:* Make sure to have a USB-RS232 serial adapter available with Null Modem adapter. This provides a more reliable method of communication with the device than SSH / HDMI when something goes awry. **Note that the serial console is unsecured by default**
@@ -30,12 +32,17 @@ sudo add-apt-repository universe
 sudo apt-get update
 sudo apt-get upgrade
 # You may want to install some useful programs at this point
-sudo apt-get install -y tmux htop screen
+sudo apt-get install -y tmux htop screen git bash-completion
 ```
 To change the hostname of the device change 'tegra-ubuntu' to the desired new name in `/etc/hostname` and `/etc/hosts`. (This will not change until reboot, so you can either reboot or run `sudo hostname YOUR-NEW-HOSTNAME-HERE` to avoid rebooting.)
 
+##### SSH Configuration
+**Need to create master `/etc/ssh/sshd_config` so each Jetson has same configuration.** #TODO
+Copy pubkeys to the Jetson using `ssh-copy-id -i your-key-here jetson-hostname-here` or manually. #TODO
+
 # Build Instructions for HackRF Tools
 Follow directions on https://github.com/mossmann/hackrf/tree/master/host
+(This doesn't take very long to build. Maybe a few minutes.)
 
 # Installing GNU Radio
 To install gnuradio, use gnuradios build system called PyBOMBS (link below). The Ubuntu Universe repository version tends to be outdated. Build gnuradio using PyBOMBS from source following [these directions](https://github.com/gnuradio/pybombs/). This takes a significant amount of time. I had trouble using `sudo pip install PyBOMBS`, so instead use `$ [sudo] pip install git+https://github.com/gnuradio/pybombs.git` to install the latest version from git.
