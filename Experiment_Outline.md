@@ -8,8 +8,7 @@ Use a HackRF One to collect drone RF data in a noise-free environment for detect
 Time required: 1-2 hours
 
 
-We are primarily interested in the 2.4 Ghz frequency range. If time allows, we would also like to collect data in the 900 - 1300 Mhz band. # TODO is this a range we want to look at as well?
-
+We are primarily interested in the 2.4 Ghz frequency range. If time allows, we would also like to collect data in the 900 - 1300 Mhz band. 
 
 # Experiment Plan
 
