@@ -1,6 +1,6 @@
 # Experiment Goals
 
-Use a HackRF One to collect drone RF data in a noise-free environment for detection purposes, including RF spectrum analysis and machine learning methods regarding drone RF behavior.
+We plan to use a HackRF One software defined radio to collect drone RF data in a low noise environment. The aim of our project is to prototype a drone detection system for the Georgia Tech Police Department. The system will use a software defined radio for RF spectrum analysis and apply machine learning methods to detect drone RF activiity. Capturing a drone's RF communication in a low noise environment will allow us to narrow down the most effective detection methods to implement for the GTPD.
 
 
 # Experiment Parameters
