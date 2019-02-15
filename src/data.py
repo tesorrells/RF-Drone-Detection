@@ -42,7 +42,7 @@ def dt_lookup(s):
     return s.map({date: pd.to_datetime(date) for date in s.unique()})
 
 
-def read_hackrf_sweep_file_and_merge(path):
+def read_hackrf_sweep_file_and_merge(path) -> pd.DataFrame:
     """
     Takes in the path to an output file from hackrf_sweep. hackrf_sweep spreads the output of a single sweep over
     multiple lines. This combines those lines. So that:
@@ -83,7 +83,7 @@ def read_hackrf_sweep_file_and_merge(path):
     return merged_df
 
 
-def get_mean_db_by_bin(df: pd.DataFrame):
+def get_mean_by_bin(df: pd.DataFrame) -> pd.Series:
     """
     Takes all the sweep data from the input dataframe as returned by read_hackrf_sweep_file_and_merge
     and gets the average db for each bin.
@@ -101,11 +101,18 @@ if __name__ == "__main__":
     # filename = "../data/25_meters.csv"
     print("Working in %s" % os.getcwd())
     print("Using file %s" % filename)
-    print("Example of reading in 25 meter data")
-    print("==================================")
+    print("Example of reading in 25 meter dji data")
+    print("=======================================")
     sample_data = read_hackrf_sweep_file_and_merge(filename)
-    # sample_data = read_hackrf_sweep_file("../data/25_meters.csv")
+    sample_data.info()  # just print out some info about the dataframe
+    print("---------------------------------------")
     print(sample_data.head(5))
+    print("=======================================")
+    print("Example of getting avg for each bin (pandas Series):")
+    print("=======================================")
+    avg_by_bin: pd.Series = get_mean_by_bin(sample_data)
+    pass
+    # sample_data = read_hackrf_sweep_file("../data/25_meters.csv")
 
     # print("\nAveraged readings in a file")
     # print("==================================")
