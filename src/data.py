@@ -1,6 +1,9 @@
 import os
 from typing import List
 import pandas as pd
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
 
 from sklearn.model_selection import train_test_split
 
@@ -149,5 +152,25 @@ if __name__ == "__main__":
     print("\n Creating a split of our positive and negative examples for use in learning models: ")
     x_train, x_test, y_train, y_test = get_train_test_data(positive=[drone_filename], negative=[noise_filename])
     print("Training examples: " + str(x_train.head()) + "\nTraining Labels: " + str(y_train.head()))
+    
+    # Heat Map
+    # need to rename the '5 meter' file to '5' instead of '05' for this to work
+    i = 5
+    avgs_over_distance = avg_by_bin
+    while i <= 50:
+        filename = "../../Drone-Data-Collection/data/2019.02.15_dji/2019.02.15.%d_meters_dji.csv" % i
+        sample_data = read_hackrf_sweep_file_and_merge(filename)
+        avg_by_bin = get_mean_by_bin(sample_data)
+        if i is 5:
+             x = 0
+        else:
+
+            avgs_over_distance= np.append(avgs_over_distance, avg_by_bin)
+        i = i + 5
+    avgs_over_distance = np.reshape(avgs_over_distance, (-1, 180))
+    fig, ax = plt.subplots()
+    im = ax.imshow(avgs_over_distance)
+    ax.set_title("HackRF bins vs Distance to Drone")
+    plt.show()
     
     pass
