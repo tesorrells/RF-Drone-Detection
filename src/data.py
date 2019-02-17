@@ -1,6 +1,8 @@
 import os
-
+from typing import List
 import pandas as pd
+
+from sklearn.model_selection import train_test_split
 
 
 # # Original functions -- just commented these out so i didn't get confused.
@@ -94,16 +96,43 @@ def get_mean_by_bin(df: pd.DataFrame) -> pd.Series:
     """
     return df.mean(axis=0)
 
+def get_train_test_data(positive: List, negative: List, testSize=0.2):
+    """
+    Takes in string or list of string paths to data files for both positive and
+    negative examples of our hackrf_sweep data and returns a train and test
+    split of inputs and their labels
+
+
+    :param positive: the list files containing positive examples
+    :param negative: the list of files containing negative examples
+    returns a four tuple of x_train, x_test, y_train, y_test
+    """
+    # 1 for positive examples (drones flying) and 0 for just random noise
+    labels = [1.0, 0.0]
+
+    labeled_data = pd.DataFrame()
+    for files, label in zip([positive, negative], labels):
+        for filename in files:
+            new_data = read_hackrf_sweep_file_and_merge(filename)
+            new_data['label'] = label
+            labeled_data = labeled_data.append(new_data)
+
+    
+    labels = labeled_data['label']
+    inputs = labeled_data.drop('label', axis=1)
+    return train_test_split(inputs, labels, test_size=testSize)
 
 if __name__ == "__main__":
-    filename = "../../Drone-Data-Collection/data/2019.02.15_dji/2019.02.15.25_meters_dji.csv"
-    # filename = "../../Drone-Data-Collection/data/2019.02.01_chi/2019.02.01.25_meters_chi.csv"
+    drone_filename = "../data/2019.02.15_dji/2019.02.15.25_meters_dji.csv"
+    noise_filename = "../data/2019.02.15_dji/2019.02.15.bg_after_25_meters_dji.csv"
+    
+
     # filename = "../data/25_meters.csv"
     print("Working in %s" % os.getcwd())
-    print("Using file %s" % filename)
+    print("Using file %s" % drone_filename)
     print("Example of reading in 25 meter dji data")
     print("=======================================")
-    sample_data = read_hackrf_sweep_file_and_merge(filename)
+    sample_data = read_hackrf_sweep_file_and_merge(drone_filename)
     sample_data.info()  # just print out some info about the dataframe
     print("---------------------------------------")
     print(sample_data.head(5))
@@ -117,4 +146,8 @@ if __name__ == "__main__":
     print("\t...")
     print(avg_by_bin.tail(4))
     print("=======================================")
+    print("\n Creating a split of our positive and negative examples for use in learning models: ")
+    x_train, x_test, y_train, y_test = get_train_test_data(positive=[drone_filename], negative=[noise_filename])
+    print("Training examples: " + str(x_train.head()) + "\nTraining Labels: " + str(y_train.head()))
+    
     pass
