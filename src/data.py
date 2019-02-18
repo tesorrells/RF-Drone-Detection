@@ -158,7 +158,7 @@ if __name__ == "__main__":
     i = 5
     avgs_over_distance = avg_by_bin
     while i <= 50:
-        filename = "../../Drone-Data-Collection/data/2019.02.15_dji/2019.02.15.%d_meters_dji.csv" % i
+        filename = "../data/2019.02.15_dji/2019.02.15.%02d_meters_dji.csv" % i
         sample_data = read_hackrf_sweep_file_and_merge(filename)
         avg_by_bin = get_mean_by_bin(sample_data)
         if i is 5:
@@ -171,6 +171,6 @@ if __name__ == "__main__":
     fig, ax = plt.subplots()
     im = ax.imshow(avgs_over_distance)
     ax.set_title("HackRF bins vs Distance to Drone")
-    plt.show()
+    plt.savefig('../figures/heatmap.png')
     
     pass

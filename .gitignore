@@ -2,3 +2,4 @@ filesystem
 *.csv
 *.swp
 .idea/
+figures/**/*
