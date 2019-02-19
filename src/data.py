@@ -74,9 +74,16 @@ def read_hackrf_sweep_file_and_merge(path) -> pd.DataFrame:
     merged_df = pd.DataFrame()
     min_freq = hackrf_df[2].min()
     max_freq = hackrf_df[3].max()
+    # find the number of bins we are expecting, so we can discard the others
+    expected_num_bins = grouped.apply(lambda x: x.iloc[:, 6:].stack().values.shape[0]).max()
     for name, group in grouped:  # merge same timestamp into one row
+        # todo make this less kludgy...
         try:
-            merged_df[name] = group.iloc[:, 6:].stack().values
+            combined_bins = group.iloc[:, 6:].stack().values
+            if combined_bins.shape[0] == expected_num_bins:  # only add if it has enough bins
+                merged_df[name] = combined_bins
+            else:
+                raise ValueError
         except ValueError:
             # Error occurs when we get fewer rows than expected because of hackrf_sweep terminating
             print("Got incorrect number of rows... discarding timestamp %s (ok if only a few of these)" % name)
@@ -100,6 +107,7 @@ def get_mean_by_bin(df: pd.DataFrame) -> pd.Series:
     """
     return df.mean(axis=0)
 
+
 def get_train_test_data(positive: List, negative: List, testSize=0.2):
     """
     Takes in string or list of string paths to data files for both positive and
@@ -121,10 +129,10 @@ def get_train_test_data(positive: List, negative: List, testSize=0.2):
             new_data['label'] = label
             labeled_data = labeled_data.append(new_data)
 
-    
     labels = labeled_data['label']
     inputs = labeled_data.drop('label', axis=1)
     return train_test_split(inputs, labels, test_size=testSize)
+
 
 def make_svm(x_train: pd.DataFrame, x_test: pd.DataFrame, y_train: pd.DataFrame, y_test: pd.DataFrame):
     clf = SVC(gamma='auto')
@@ -161,6 +169,11 @@ if __name__ == "__main__":
     drone_filename = "../data/2019.02.15_dji/2019.02.15.10_meters_dji.csv"
     noise_filename = "../data/2019.02.15_dji/2019.02.15.bg_after_10_meters_dji.csv"
     
+=======
+
+if __name__ == "__main__":
+    drone_filename = "../data/2019.02.15_dji/2019.02.15.25_meters_dji.csv"
+    noise_filename = "../data/2019.02.15_dji/2019.02.15.bg_after_25_meters_dji.csv"
 
     # filename = "../data/25_meters.csv"
     print("Working in %s" % os.getcwd())
@@ -191,7 +204,7 @@ if __name__ == "__main__":
     
     print("Trying plot_learning_curve: ", plot_learning_curve(cunt, "Practice", x_train, y_train))
     plt.show()
-    
+
     # Heat Map
     # need to rename the '5 meter' file to '5' instead of '05' for this to work
     i = 5
@@ -201,15 +214,15 @@ if __name__ == "__main__":
         sample_data = read_hackrf_sweep_file_and_merge(filename)
         avg_by_bin = get_mean_by_bin(sample_data)
         if i is 5:
-             x = 0
+            x = 0
         else:
 
-            avgs_over_distance= np.append(avgs_over_distance, avg_by_bin)
+            avgs_over_distance = np.append(avgs_over_distance, avg_by_bin)
         i = i + 5
     avgs_over_distance = np.reshape(avgs_over_distance, (-1, 180))
     fig, ax = plt.subplots()
     im = ax.imshow(avgs_over_distance)
     ax.set_title("HackRF bins vs Distance to Drone")
-    plt.savefig('../figures/heatmap.png')
-    
-    # pass
+    plt.savefig('../figures/heatmap.png')  # todo will fail if ../figures/ dir doesn't exist
+
+pass
