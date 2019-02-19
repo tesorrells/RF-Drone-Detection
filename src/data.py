@@ -4,8 +4,9 @@ import pandas as pd
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-
+from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import learning_curve
 
 
 # # Original functions -- just commented these out so i didn't get confused.
@@ -125,9 +126,40 @@ def get_train_test_data(positive: List, negative: List, testSize=0.2):
     inputs = labeled_data.drop('label', axis=1)
     return train_test_split(inputs, labels, test_size=testSize)
 
+def make_svm(x_train: pd.DataFrame, x_test: pd.DataFrame, y_train: pd.DataFrame, y_test: pd.DataFrame):
+    clf = SVC(gamma='auto')
+    return(clf.fit(x_train, y_train))
+
+def plot_learning_curve(estimator: SVC, title, X, y):
+    plt.figure()
+    plt.title("Learning Curve")
+    plt.xlabel("Training Examples")
+    plt.ylabel("Score")
+    train_sizes, train_scores, test_scores = learning_curve(estimator, X, y)
+    train_scores_mean = np.mean(train_scores, axis = 1)
+    train_scores_std = np.std(train_scores, axis=1)
+    test_scores_mean = np.mean(test_scores, axis=1)
+    test_scores_std = np.std(test_scores, axis=1)
+
+    plt.grid()
+
+    plt.fill_between(train_sizes, train_scores_mean - train_scores_std,
+                     train_scores_mean + train_scores_std, alpha=0.1,
+                     color="r")
+    plt.fill_between(train_sizes, test_scores_mean - test_scores_std,
+                     test_scores_mean + test_scores_std, alpha=0.1, color="g")
+    plt.plot(train_sizes, train_scores_mean, 'o-', color="r",
+             label="Training score")
+    plt.plot(train_sizes, test_scores_mean, 'o-', color="g",
+             label="Cross-validation score")
+
+    plt.legend(loc="best")
+    return plt
+
+
 if __name__ == "__main__":
-    drone_filename = "../data/2019.02.15_dji/2019.02.15.25_meters_dji.csv"
-    noise_filename = "../data/2019.02.15_dji/2019.02.15.bg_after_25_meters_dji.csv"
+    drone_filename = "../data/2019.02.15_dji/2019.02.15.10_meters_dji.csv"
+    noise_filename = "../data/2019.02.15_dji/2019.02.15.bg_after_10_meters_dji.csv"
     
 
     # filename = "../data/25_meters.csv"
@@ -153,6 +185,13 @@ if __name__ == "__main__":
     x_train, x_test, y_train, y_test = get_train_test_data(positive=[drone_filename], negative=[noise_filename])
     print("Training examples: " + str(x_train.head()) + "\nTraining Labels: " + str(y_train.head()))
     
+    # Learning Curve
+    print("Trying make_svm: ")
+    cunt = make_svm(x_train, x_test, y_train, y_test)
+    
+    print("Trying plot_learning_curve: ", plot_learning_curve(cunt, "Practice", x_train, y_train))
+    plt.show()
+    
     # Heat Map
     # need to rename the '5 meter' file to '5' instead of '05' for this to work
     i = 5
@@ -173,4 +212,4 @@ if __name__ == "__main__":
     ax.set_title("HackRF bins vs Distance to Drone")
     plt.savefig('../figures/heatmap.png')
     
-    pass
+    # pass
