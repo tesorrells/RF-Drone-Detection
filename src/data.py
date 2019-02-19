@@ -8,33 +8,6 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
 
-# # Original functions -- just commented these out so i didn't get confused.
-# def read_hack_rf_sweep_file(path):
-#     # Nicely formats the hackrf data
-#     data = pd.read_csv(path, header=None)
-#     num_rows, num_cols = data.shape
-#
-#     # sets the header values for a hackrf_sweep csv
-#     col_names = ["date", "time", "hz_low", "hz_high", "bin_width",
-#                  "num_samples"]
-#     col_names += ["db_%d" % i for i in range(num_cols - len(col_names))]
-#
-#     data.columns = col_names
-#
-#     # appends new column to the end as the average db reading per bin in range
-#     readings = data.loc[:, "db_0":]
-#     data["db_avg"] = readings.mean(axis=1)
-#
-#     return data
-#
-#
-# def get_average_activity(data):
-#     # Requires a hackrf data frame (as returned by read_hack_rf_sweep_file) and
-#     # will average the bins and readings across the entire time it was recorded
-#     db_readings = data.loc[:, "hz_low":]
-#     return db_readings.groupby("hz_low", as_index=False).mean()
-
-
 def dt_lookup(s):
     """
     Helper func. This is an extremely fast approach to datetime parsing.
