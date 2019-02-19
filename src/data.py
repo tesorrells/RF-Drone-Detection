@@ -35,27 +35,26 @@ def read_hackrf_sweep_file_and_merge(path) -> pd.DataFrame:
     """
     # grouped.get_group('2019-02-15 11:03:17.299693').values[:, 6:].ravel() # todo delete this line
 
-    # Nicely formats the hackrf hackrf_df
+    # Read CSV hackrf_sweep output to Pandas DataFrame
     hackrf_df: pd.DataFrame = pd.read_csv(path, header=None)
 
-    # Index everything by date+time
+    # Index everything by datetime
     datetime = pd.DatetimeIndex(dt_lookup(hackrf_df[0] + hackrf_df[1]))
     hackrf_df.set_index(datetime, inplace=True)
-    # hackrf_df[0] = datetime
 
     # Group according to datetime timestamp
-    min_freq = hackrf_df[2].min()
-    max_freq = hackrf_df[3].max()
-    # find the number of bins we are expecting, so we can discard the others. Use max for this
-    expected_num_bins = hackrf_df.groupby(hackrf_df.index).apply(lambda x: x.values[:, 6:].ravel().size).max()
+    # find the number of bins we are expecting, so we can discard the others. Use mode for this
+    expected_num_bins = hackrf_df.groupby(hackrf_df.index).apply(lambda x: x.values[:, 6:].ravel().size).mode()
     # filter out incomplete sweeps. ie where < 180 bins
     merged_df = hackrf_df.groupby(hackrf_df.index).filter(lambda x: x.values[:, 6:].ravel().size == expected_num_bins)
     # combine multiple rows corresponding to a single sweep/timestamp into one row, datetime indexed
     merged_df = merged_df.groupby(merged_df.index).apply(lambda x: pd.Series(x.values[:, 6:].ravel()))
 
     num_bins = merged_df.shape[1]
-    bin_size = (max_freq - min_freq) / num_bins  # in hz
     # set col name to min freq for each sample i.e. sample starting at 2400000000 hz
+    min_freq = hackrf_df[2].min()
+    max_freq = hackrf_df[3].max()
+    bin_size = (max_freq - min_freq) / num_bins  # in hz
     merged_df.columns = [int((min_freq + x * bin_size)) for x in range(0, num_bins)]
 
     return merged_df
