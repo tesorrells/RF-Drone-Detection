@@ -178,6 +178,6 @@ if __name__ == "__main__":
     fig, ax = plt.subplots()
     im = ax.imshow(avgs_over_distance)
     ax.set_title("HackRF bins vs Distance to Drone")
-    plt.savefig('../figures/heatmap.png')
+    plt.savefig('../figures/heatmap.png')  #todo will fail if ../figures/ dir doesn't exist
 
     pass
