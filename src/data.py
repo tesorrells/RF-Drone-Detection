@@ -60,33 +60,26 @@ def read_hackrf_sweep_file_and_merge(path) -> pd.DataFrame:
     :param path: filepath_or_buffer : str, path object, or file-like object
     :return: pd.DataFrame
     """
+    # grouped.get_group('2019-02-15 11:03:17.299693').values[:, 6:].ravel() # todo delete this line
+
     # Nicely formats the hackrf hackrf_df
     hackrf_df: pd.DataFrame = pd.read_csv(path, header=None)
 
     # Index everything by date+time
     datetime = pd.DatetimeIndex(dt_lookup(hackrf_df[0] + hackrf_df[1]))
-    hackrf_df = hackrf_df.set_index(datetime)
-    hackrf_df[0] = datetime
+    hackrf_df.set_index(datetime, inplace=True)
+    # hackrf_df[0] = datetime
 
     # Group according to datetime timestamp
-    grouped = hackrf_df.groupby(hackrf_df.index)
-    merged_df = pd.DataFrame()
     min_freq = hackrf_df[2].min()
     max_freq = hackrf_df[3].max()
-    # find the number of bins we are expecting, so we can discard the others
-    expected_num_bins = grouped.apply(lambda x: x.iloc[:, 6:].stack().values.shape[0]).max()
-    for name, group in grouped:  # merge same timestamp into one row
-        # todo make this less kludgy...
-        try:
-            combined_bins = group.iloc[:, 6:].stack().values
-            if combined_bins.shape[0] == expected_num_bins:  # only add if it has enough bins
-                merged_df[name] = combined_bins
-            else:
-                raise ValueError
-        except ValueError:
-            # Error occurs when we get fewer rows than expected because of hackrf_sweep terminating
-            print("Got incorrect number of rows... discarding timestamp %s (ok if only a few of these)" % name)
-    merged_df: pd.DataFrame = merged_df.T  # swap rows/cols because it came out the other way
+    # find the number of bins we are expecting, so we can discard the others. Use max for this
+    expected_num_bins = hackrf_df.groupby(hackrf_df.index).apply(lambda x: x.values[:, 6:].ravel().size).max()
+    # filter out incomplete sweeps. ie where < 180 bins
+    merged_df = hackrf_df.groupby(hackrf_df.index).filter(lambda x: x.values[:, 6:].ravel().size == expected_num_bins)
+    # combine multiple rows corresponding to a single sweep/timestamp into one row, datetime indexed
+    merged_df = merged_df.groupby(merged_df.index).apply(lambda x: pd.Series(x.values[:, 6:].ravel()))
+
     num_bins = merged_df.shape[1]
     bin_size = (max_freq - min_freq) / num_bins  # in hz
     # set col name to min freq for each sample i.e. sample starting at 2400000000 hz
