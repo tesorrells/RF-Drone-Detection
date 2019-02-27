@@ -140,7 +140,7 @@ def make_svm(x_train: pd.DataFrame, x_test: pd.DataFrame, y_train: pd.DataFrame,
 
 def plot_learning_curve(estimator: SVC, title, X, y):
     plt.figure()
-    plt.title("Learning Curve")
+    plt.title(title)
     plt.xlabel("Training Examples")
     plt.ylabel("Score")
     train_sizes, train_scores, test_scores = learning_curve(estimator, X, y)
@@ -169,16 +169,15 @@ if __name__ == "__main__":
     drone_filename = "../data/2019.02.15_dji/2019.02.15.10_meters_dji.csv"
     noise_filename = "../data/2019.02.15_dji/2019.02.15.bg_after_10_meters_dji.csv"
     
-=======
 
 if __name__ == "__main__":
-    drone_filename = "../data/2019.02.15_dji/2019.02.15.25_meters_dji.csv"
-    noise_filename = "../data/2019.02.15_dji/2019.02.15.bg_after_25_meters_dji.csv"
+    drone_filename = "../data/2019.02.15_dji/2019.02.15.10_meters_dji.csv"
+    noise_filename = "../data/2019.02.15_dji/2019.02.15.bg_after_10_meters_dji.csv"
 
     # filename = "../data/25_meters.csv"
     print("Working in %s" % os.getcwd())
     print("Using file %s" % drone_filename)
-    print("Example of reading in 25 meter dji data")
+    print("Example of reading in 10 meter dji data")
     print("=======================================")
     sample_data = read_hackrf_sweep_file_and_merge(drone_filename)
     sample_data.info()  # just print out some info about the dataframe
@@ -200,29 +199,29 @@ if __name__ == "__main__":
     
     # Learning Curve
     print("Trying make_svm: ")
-    cunt = make_svm(x_train, x_test, y_train, y_test)
+    model = make_svm(x_train, x_test, y_train, y_test)
     
-    print("Trying plot_learning_curve: ", plot_learning_curve(cunt, "Practice", x_train, y_train))
+    print("Trying plot_learning_curve: ", plot_learning_curve(model, "10 Meter Learning Curve", x_train, y_train))
     plt.show()
 
-    # Heat Map
-    # need to rename the '5 meter' file to '5' instead of '05' for this to work
-    i = 5
-    avgs_over_distance = avg_by_bin
-    while i <= 50:
-        filename = "../data/2019.02.15_dji/2019.02.15.%02d_meters_dji.csv" % i
-        sample_data = read_hackrf_sweep_file_and_merge(filename)
-        avg_by_bin = get_mean_by_bin(sample_data)
-        if i is 5:
-            x = 0
-        else:
+#     # Heat Map
+#     # need to rename the '5 meter' file to '5' instead of '05' for this to work
+#     i = 5
+#     avgs_over_distance = avg_by_bin
+#     while i <= 50:
+#         filename = "../data/2019.02.15_dji/2019.02.15.%02d_meters_dji.csv" % i
+#         sample_data = read_hackrf_sweep_file_and_merge(filename)
+#         avg_by_bin = get_mean_by_bin(sample_data)
+#         if i is 5:
+#             x = 0
+#         else:
 
-            avgs_over_distance = np.append(avgs_over_distance, avg_by_bin)
-        i = i + 5
-    avgs_over_distance = np.reshape(avgs_over_distance, (-1, 180))
-    fig, ax = plt.subplots()
-    im = ax.imshow(avgs_over_distance)
-    ax.set_title("HackRF bins vs Distance to Drone")
-    plt.savefig('../figures/heatmap.png')  # todo will fail if ../figures/ dir doesn't exist
+#             avgs_over_distance = np.append(avgs_over_distance, avg_by_bin)
+#         i = i + 5
+#     avgs_over_distance = np.reshape(avgs_over_distance, (-1, 180))
+#     fig, ax = plt.subplots()
+#     im = ax.imshow(avgs_over_distance)
+#     ax.set_title("HackRF bins vs Distance to Drone")
+#     plt.savefig('../figures/heatmap.png')  # todo will fail if ../figures/ dir doesn't exist
 
-pass
+# pass
