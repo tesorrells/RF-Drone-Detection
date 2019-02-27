@@ -97,6 +97,36 @@ def get_train_test_data(positive: List, negative: List, testSize=0.2):
     inputs = labeled_data.drop('label', axis=1)
     return train_test_split(inputs, labels, test_size=testSize)
 
+def get_heat_map(avg_by_bin):
+     # Heat Map
+    # need to rename the '5 meter' file to '5' instead of '05' for this to work
+    i = 5
+    avgs_over_distance = avg_by_bin
+    while i <= 50:
+        filename_dr = "../data/2019.02.15_dji/2019.02.15.%02d_meters_dji.csv" % i
+        filename_bg = "../data/2019.02.15_dji/2019.02.15.%02d_meters_dji.csv" % i
+        sample_dr = read_hackrf_sweep_file_and_merge(filename_dr)
+        sample_bg = read_hackrf_sweep_file_and_merge(filename_bg)
+        avg_by_bin_dr = get_mean_by_bin(sample_dr)
+        avg_by_bin_bg = get_mean_by_bin(sample_bg)
+        if i is 5:
+            x = 0
+        else:
+
+            avgs_over_distance_dr = np.append(avgs_over_distance_dr, avg_by_bin_dr)
+            avgs_over_distance_bg = np.append(avgs_over_distance_bg, avg_by_bin_bg)
+        i = i + 5
+    avgs_over_distance_dr = np.reshape(avgs_over_distance, (-1, 180))
+    avgs_over_distance_bg = np.reshape(avgs_over_distance, (-1, 180))
+    fig1, ax1 = plt.subplots()
+    im1 = ax1.imshow(avgs_over_distance_dr)
+    fig2, ax2 = plt.subplots()
+    im2 = ax2.imshow(avgs_over_distance_bg)
+    ax1.set_title("HackRF bins vs Distance to Drone")
+    plt.savefig('../figures/heatmap_dr.png')
+    ax2.set_title("HackRF bins vs Background Noise")
+    plt.savefig('../figures/heatmap_bg.png')
+
 
 if __name__ == "__main__":
     drone_filename = "../data/2019.02.15_dji/2019.02.15.25_meters_dji.csv"
@@ -124,25 +154,6 @@ if __name__ == "__main__":
     print("\n Creating a split of our positive and negative examples for use in learning models: ")
     x_train, x_test, y_train, y_test = get_train_test_data(positive=[drone_filename], negative=[noise_filename])
     print("Training examples: " + str(x_train.head()) + "\nTraining Labels: " + str(y_train.head()))
-
-    # Heat Map
-    # need to rename the '5 meter' file to '5' instead of '05' for this to work
-    i = 5
-    avgs_over_distance = avg_by_bin
-    while i <= 50:
-        filename = "../data/2019.02.15_dji/2019.02.15.%02d_meters_dji.csv" % i
-        sample_data = read_hackrf_sweep_file_and_merge(filename)
-        avg_by_bin = get_mean_by_bin(sample_data)
-        if i is 5:
-            x = 0
-        else:
-
-            avgs_over_distance = np.append(avgs_over_distance, avg_by_bin)
-        i = i + 5
-    avgs_over_distance = np.reshape(avgs_over_distance, (-1, 180))
-    fig, ax = plt.subplots()
-    im = ax.imshow(avgs_over_distance)
-    ax.set_title("HackRF bins vs Distance to Drone")
-    plt.savefig('../figures/heatmap.png')  # todo will fail if ../figures/ dir doesn't exist
+    get_heat_map(avg_by_bin)
 
     pass
