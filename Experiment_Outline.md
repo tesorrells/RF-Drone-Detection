@@ -10,7 +10,8 @@ Time required: 1-2 hours
 
 We are primarily interested in the 2.4 Ghz frequency range. If time allows, we would also like to collect data in the 900 Mhz and 5.8 Ghz ranges.
 
-# Experiment Plan
+# Experiment Plan 1  
+RF Detection
 
 Use a HackRF, a laptop with GNU radio, and a provided DJI drone to collect RF spectrum data using HackRF Sweep for processing outside of the lab. The drone would be powered but not moving. Data will be collected from various distances and time intervals by moving the HackRF and the drone controller away and around the lab, if the size of the lab permits.
 
@@ -25,4 +26,7 @@ Recordings we want to obtain:
 (hackrf_sweep -f (lower_bound):(upper_bound) -n 8192 -w 600000 -r active_drone.csv)
 2. A recording of RF activity as someone walks WITH the drone on from right next to the hackrf to about 100m away (Where ever we see activity from 1)
 3. A recording of RF activity as someone walks with the drone from about 100m away to the hackRF (same spectrum as 2)
+
+# Experiment Plan 2  
+RF Sonar
 
