@@ -30,4 +30,7 @@ Recordings we want to obtain:
 # Experiment Plan 2  
 RF Sonar
 
-Collect RF data of drone movement.
+Collect RF data of drone movement using a 2.4Ghz 20dBi gain directional antenna.  
+Identify the drone's wifi channel using a Wifi Analyzer.  
+This application provides the channel ID and frequency for listening to the drone’s communication.  
+Store the data for filtering in python.  
