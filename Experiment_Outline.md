@@ -30,3 +30,4 @@ Recordings we want to obtain:
 # Experiment Plan 2  
 RF Sonar
 
+Collect RF data of drone movement.
