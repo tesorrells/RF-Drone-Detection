@@ -10,6 +10,8 @@ Time required: 1-2 hours
 
 We are primarily interested in the 2.4 Ghz frequency range. If time allows, we would also like to collect data in the 900 Mhz and 5.8 Ghz ranges.
 
+*We would like to record this data with a couple different antenna's, but definitely need to ensure use at least one directional and one omni-directional*
+
 # Experiment Plan 1  
 RF Detection
 
