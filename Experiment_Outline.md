@@ -46,16 +46,23 @@ __Ensure this entire experiment has someone filming the drone__
 1. Using the information from wifi-analyzer, use a hackRF to listen to the data being transmitted by the drone. 
 Record the following data:
   a. Starting with the drone not moving (propellers still)
+  
 Turn on the propellers and stay on ground for roughly 5 seconds
+
   b. Take off hovering for roughly 5 seconds
+  
   c. Move the drone in a t shape, returning to center after reaching each edge.
 
 In a Separate Recording of both RF and video:
 
 a. Again start with a still drone
+
 b. Take off with the drone
+
 c. While hovering in a relatively fixed location, rotate drone 360 degrees around.
+
 d. Navigate the drone in a circle
+
 e. Tilt drone on all axis
 
 
