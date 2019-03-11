@@ -1,2 +1,4 @@
 filesystem
 *.swp
+.idea/
+figures/
