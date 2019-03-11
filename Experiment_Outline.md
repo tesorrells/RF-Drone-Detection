@@ -39,9 +39,9 @@ RF Sonar
 
 
 # Experiment plan 3
-Moving body drone data
+**Moving body drone data**
 
-*Ensure this entire experiment has someone filming the drone*
+__Ensure this entire experiment has someone filming the drone__
 
 Using the information from wifi-analyzer, use a hackRF to listen to the data being transmitted by the drone. 
 Starting with the drone not moving (propellers still)
