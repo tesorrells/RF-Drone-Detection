@@ -36,3 +36,7 @@ RF Sonar
 - Identify the drone's wifi channel using a Wifi Analyzer and a spectrum analyzer.  
 - This application provides the channel ID and frequency for listening to the drone’s communication.  
 - Store the data for filtering in python.  
+
+
+# Experiment plan 3
+Moving body drone data
