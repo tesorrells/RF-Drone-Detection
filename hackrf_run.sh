@@ -1,5 +1,5 @@
 #!/bin/bash
-SAMPLE_DURATION=30
+SAMPLE_DURATION=60
 read -p "Enter filename: " FILENAME
 FILENAME="$FILENAME.csv"
 echo $FILENAME
