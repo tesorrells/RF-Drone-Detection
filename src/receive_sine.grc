@@ -554,7 +554,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>file</key>
@@ -2023,7 +2023,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(144, 188)</value>
+      <value>(152, 204)</value>
     </param>
     <param>
       <key>_rotation</key>
