@@ -28,7 +28,6 @@ class Airodumper:
         if not os.geteuid() == 0:
             logging.error("Must run as root")
             sys.exit('This script must be run as root!')
-        self.choose_interface()
 
     def get_interfaces(self):
         logging.debug("Getting interfaces...")
@@ -92,6 +91,7 @@ class Airodumper:
         logging.info("Finally chose " + self.iface)
 
     def start(self):
+        self.choose_interface()
         self.proc = subprocess.Popen(
             ['airodump-ng', '--update', '1', '--berlin', '20', self.iface],
             bufsize=1,
@@ -100,12 +100,12 @@ class Airodumper:
 
     def stop(self):
         logging.info("Stopping...")
-        self.proc.terminate()
+        if self.proc is not None:
+            self.proc.terminate()
         self.stop_monitor_mode()
 
     def process(self):
         p = re.compile(r'(?:[0-9A-F]:?){12}')  # find all mac addresses in line
-
         for line in io.TextIOWrapper(self.proc.stdout):
             tmp = re.findall(p, line.strip().upper())
             if len(tmp) > 0:
