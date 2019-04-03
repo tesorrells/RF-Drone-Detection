@@ -4,6 +4,7 @@ import logging
 import os
 import subprocess
 import sys
+import time
 
 
 class Airodumper:
@@ -13,6 +14,7 @@ class Airodumper:
     proc = None
     interfaces = []
     monitor_interfaces = []
+    iface = None
 
     def __init__(self):
         if not os.geteuid() == 0:
@@ -23,7 +25,8 @@ class Airodumper:
     def get_interfaces(self):
         logging.debug("Getting interfaces...")
         try:
-            with subprocess.Popen(['airmon-ng'], bufsize=1, stdout=subprocess.PIPE, stderr=subprocess.STDOUT) as mon_proc:
+            with subprocess.Popen(['airmon-ng'], bufsize=1, stdout=subprocess.PIPE,
+                                  stderr=subprocess.STDOUT) as mon_proc:
                 mon_proc.wait()
                 # Get wifi interfaces
                 self.interfaces = []
@@ -52,26 +55,37 @@ class Airodumper:
         self.get_interfaces()
         for iface in self.monitor_interfaces:
             logging.info("Stopping monitor mode for " + iface)
-            stop_proc = subprocess.Popen(['airmon-ng', 'stop', iface], bufsize=1, stdout=subprocess.PIPE,
-                                         stderr=subprocess.STDOUT)
-            stop_proc.wait()
+            with subprocess.Popen(['airmon-ng', 'stop', iface], stdout=subprocess.PIPE) as stop_proc:
+                stop_proc.wait()
         self.get_interfaces()
         logging.info("Monitor mode stopped for all interfaces...")
 
     def choose_interface(self):
         self.stop_monitor_mode()
-        print("Select interface:")
-        for i, iface in enumerate(self.interfaces):
-            print("%s\t%s" % (i, iface))
-        choice = None
-        while choice not in range(0, len(self.interfaces)):
-            try:
-                choice = int(input("Enter your selection & hit [Enter]: "))
-            except ValueError:
-                pass
-        logging.info("chose: " + self.interfaces[choice])
+        if len(self.interfaces) > 1:  # multiple interfaces found
+            if len(sys.argv) > 1:  # interface specified as cmd line arg
+                if sys.argv[1] not in self.interfaces:  # erroneous interface specified
+                    sys.exit("Specified interface not found!\nUsage: sudo ./wifi_monitor.py wlan0")
+                else:  # specified interface IS in self.interfaces
+                    self.iface = sys.argv[1]
+            else:
+                sys.exit("Error: Must specify an interface when multiple are found. Run 'iw dev' for options.")
+        else:  # Only one interface found
+            self.iface = self.interfaces[0]
+        logging.info("Selected " + self.iface)
+
+        if self.iface not in self.monitor_interfaces:
+            with subprocess.Popen(['airmon-ng', 'start', self.iface], stdout=subprocess.PIPE) as start_proc:
+                start_proc.wait()
+                self.get_interfaces()
+                if len(self.monitor_interfaces) != 1:
+                    sys.exit("Error. Should be exactly one monitor interface")
+                self.iface = self.monitor_interfaces[0]
+        logging.info("Finally chose " + repr(self.iface))
 
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
+    if len(sys.argv) > 1:
+        print("Specified interface: " + sys.argv[1])
     dumper = Airodumper()
