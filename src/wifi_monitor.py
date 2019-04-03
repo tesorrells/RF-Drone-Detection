@@ -2,10 +2,9 @@
 import io
 import logging
 import os
+import re
 import subprocess
 import sys
-import re
-import time
 
 
 class Airodumper:
@@ -19,8 +18,10 @@ class Airodumper:
     oui_list = [
         "62:60:1F",  # dji
         "60:60:1F",  # dji
-        "10:DA:43",  # dummy todo remove
-        "40:A3:CC",  # dummy todo remove
+        "10:",  # dummy todo remove
+        "D4:",  # dummy todo remove
+        "40:",  # dummy todo remove
+        "38:",  # dummy todo remove
     ]
 
     def __init__(self):
@@ -108,10 +109,10 @@ class Airodumper:
                     for oui in self.oui_list:
                         if str(mac).startswith(oui):
                             print(line.strip())
-                    # print(str(mac).startswith("60:02:92"))
 
 
 if __name__ == '__main__':
+    print("REMEMBER TO REMOVE DUMMY MAC ADDRESSESS!!!\n\n\n")
     logging.basicConfig(level=logging.INFO)
     if len(sys.argv) > 1:
         print("Specified interface: " + sys.argv[1])
