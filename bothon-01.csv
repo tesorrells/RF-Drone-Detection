@@ -1,7 +1,0 @@
-
-BSSID, First time seen, Last time seen, channel, Speed, Privacy, Cipher, Authentication, Power, # beacons, # IV, LAN IP, ID-length, ESSID, Key
-60:60:1F:03:10:DC, 2019-03-11 11:30:47, 2019-03-11 11:30:54,  4,  54, OPN, ,   , -61,       11,        0,   0.  0.  0.  0,   0, , 
-60:60:1F:62:C0:6E, 2019-03-11 11:30:45, 2019-03-11 11:30:57,  4,  54, OPN, ,   , -41,       31,        0,   0.  0.  0.  0,  14, Phantom_62c06e, 
-
-Station MAC, First time seen, Last time seen, Power, # packets, BSSID, Probed ESSIDs
-
