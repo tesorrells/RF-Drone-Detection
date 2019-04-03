@@ -98,6 +98,11 @@ class Airodumper:
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT)
 
+    def stop(self):
+        logging.info("Stopping...")
+        self.proc.terminate()
+        self.stop_monitor_mode()
+
     def process(self):
         p = re.compile(r'(?:[0-9A-F]:?){12}')  # find all mac addresses in line
 
@@ -116,6 +121,10 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     if len(sys.argv) > 1:
         print("Specified interface: " + sys.argv[1])
-    dumper = Airodumper()
-    dumper.start()
-    dumper.process()
+    try:
+        dumper = Airodumper()
+        dumper.start()
+        dumper.process()
+    except KeyboardInterrupt:
+        logging.info("got keyboard interrupt")
+        dumper.stop()
