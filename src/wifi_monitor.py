@@ -16,6 +16,12 @@ class Airodumper:
     interfaces = []
     monitor_interfaces = []
     iface = None
+    oui_list = [
+        "62:60:1F",  # dji
+        "60:60:1F",  # dji
+        "10:DA:43",  # dummy todo remove
+        "40:A3:CC",  # dummy todo remove
+    ]
 
     def __init__(self):
         if not os.geteuid() == 0:
@@ -92,12 +98,17 @@ class Airodumper:
             stderr=subprocess.STDOUT)
 
     def process(self):
-        p = re.compile(r'(?:[0-9a-fA-F]:?){12}')
+        p = re.compile(r'(?:[0-9A-F]:?){12}')  # find all mac addresses in line
+
         for line in io.TextIOWrapper(self.proc.stdout):
-            tmp = re.findall(p, line.strip())
+            tmp = re.findall(p, line.strip().upper())
             if len(tmp) > 0:
-                print(tmp)
-            # print("line: " + repr(line.strip())  #.split()))
+                for mac in tmp:
+                    logging.debug("Saw mac " + mac)
+                    for oui in self.oui_list:
+                        if str(mac).startswith(oui):
+                            print(line.strip())
+                    # print(str(mac).startswith("60:02:92"))
 
 
 if __name__ == '__main__':
