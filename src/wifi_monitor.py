@@ -23,22 +23,22 @@ class Airodumper:
     def get_interfaces(self):
         logging.debug("Getting interfaces...")
         try:
-            mon_proc = subprocess.Popen(['airmon-ng'], bufsize=1, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-            mon_proc.wait()
-            # Get wifi interfaces
-            self.interfaces = []
-            self.monitor_interfaces = []
-            for line in io.TextIOWrapper(mon_proc.stdout):
-                tmp = line.rstrip().split("\t")
-                if "phy" in tmp[0]:
-                    logging.debug("Found interface " + tmp[1] + " on " + tmp[0])
-                    self.interfaces.append(tmp[1])
-                    if "mon" in tmp[1]:  # is interface in monitor mode already?
-                        logging.debug("\tinterface " + tmp[1] + " already in monitor mode")
-                        self.monitor_interfaces.append(tmp[1])
-            logging.info("Found interfaces: " + repr(self.interfaces))
-            if len(self.interfaces) < 1:
-                raise ValueError
+            with subprocess.Popen(['airmon-ng'], bufsize=1, stdout=subprocess.PIPE, stderr=subprocess.STDOUT) as mon_proc:
+                mon_proc.wait()
+                # Get wifi interfaces
+                self.interfaces = []
+                self.monitor_interfaces = []
+                for line in io.TextIOWrapper(mon_proc.stdout):
+                    tmp = line.rstrip().split("\t")
+                    if "phy" in tmp[0]:
+                        logging.debug("Found interface " + tmp[1] + " on " + tmp[0])
+                        self.interfaces.append(tmp[1])
+                        if "mon" in tmp[1]:  # is interface in monitor mode already?
+                            logging.debug("\tinterface " + tmp[1] + " already in monitor mode")
+                            self.monitor_interfaces.append(tmp[1])
+                logging.info("Found interfaces: " + repr(self.interfaces))
+                if len(self.interfaces) < 1:
+                    raise ValueError
         except FileNotFoundError:
             logging.error("aircrack-ng suite not found in PATH")
             sys.exit("Error: either aircrack-ng suite is not installed or not in PATH. Install from "
