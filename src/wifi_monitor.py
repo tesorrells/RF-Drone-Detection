@@ -4,6 +4,7 @@ import logging
 import os
 import subprocess
 import sys
+import re
 import time
 
 
@@ -69,7 +70,7 @@ class Airodumper:
                 else:  # specified interface IS in self.interfaces
                     self.iface = sys.argv[1]
             else:
-                sys.exit("Error: Must specify an interface when multiple are found. Run 'iw dev' for options.")
+                sys.exit("Error: Must specify an interface when multiple are found. Run 'sudo airmon-ng' for options.")
         else:  # Only one interface found
             self.iface = self.interfaces[0]
         logging.info("Selected " + self.iface)
@@ -81,7 +82,22 @@ class Airodumper:
                 if len(self.monitor_interfaces) != 1:
                     sys.exit("Error. Should be exactly one monitor interface")
                 self.iface = self.monitor_interfaces[0]
-        logging.info("Finally chose " + repr(self.iface))
+        logging.info("Finally chose " + self.iface)
+
+    def start(self):
+        self.proc = subprocess.Popen(
+            ['airodump-ng', '--update', '1', '--berlin', '20', self.iface],
+            bufsize=1,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT)
+
+    def process(self):
+        p = re.compile(r'(?:[0-9a-fA-F]:?){12}')
+        for line in io.TextIOWrapper(self.proc.stdout):
+            tmp = re.findall(p, line.strip())
+            if len(tmp) > 0:
+                print(tmp)
+            # print("line: " + repr(line.strip())  #.split()))
 
 
 if __name__ == '__main__':
@@ -89,3 +105,5 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         print("Specified interface: " + sys.argv[1])
     dumper = Airodumper()
+    dumper.start()
+    dumper.process()
