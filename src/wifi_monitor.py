@@ -11,19 +11,7 @@ class Airodumper:
     proc = None
 
     def __init__(self):
-        # self.check_install()
         self.get_interfaces()
-
-    # def check_install(self):
-    #     if not os.geteuid() == 0:
-    #         sys.exit('This script must be run as root!')
-    #     try:
-    #         self.proc = subprocess.Popen(['airmon-ng'])
-    #         self.proc.wait()
-    #         print("airmon-ng is installed")
-    #     except FileNotFoundError:
-    #         sys.exit("Error: either aircrack-ng suite is not installed or not in PATH. Install from "
-    #                  "https://github.com/aircrack-ng/aircrack-ng")
 
     def get_interfaces(self):
         if not os.geteuid() == 0:
@@ -35,7 +23,6 @@ class Airodumper:
                 tmp = line.rstrip().split("\t")
                 if "phy" in tmp[0]:
                     print("temp: ", tmp)
-                # print(line.rstrip())
         except FileNotFoundError:
             sys.exit("Error: either aircrack-ng suite is not installed or not in PATH. Install from "
                      "https://github.com/aircrack-ng/aircrack-ng")
