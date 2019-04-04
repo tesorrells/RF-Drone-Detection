@@ -1,5 +1,4 @@
 #! /usr/bin/env python3
-import datetime
 import io
 import logging
 import os
@@ -19,10 +18,6 @@ class Airodumper:
     oui_list = [
         "62:60:1F",  # dji
         "60:60:1F",  # dji
-        "10:",  # dummy todo remove
-        "D4:",  # dummy todo remove
-        "40:",  # dummy todo remove
-        "38:",  # dummy todo remove
     ]  # todo consider moving to file containing drone mac OUIs
 
     def __init__(self):
@@ -164,15 +159,21 @@ class Airodumper:
                     for oui in self.oui_list:
                         if str(mac).startswith(oui):
                             logging.info("Detected %s with mask %s" % (mac, oui))
+                            print("BLINKING RED LIGHT %s with mask %s" % (mac, oui))
 
 
 if __name__ == '__main__':
-    print("REMEMBER TO REMOVE DUMMY MAC ADDRESSESS!!!\n\n\n")
-    logging.basicConfig(level=logging.INFO)
+    logfile = "wifi_monitor.log"
+    # print("REMEMBER TO REMOVE DUMMY MAC ADDRESSESS!!!\n\n\n")
+    logging.basicConfig(filename=logfile, filemode='w', level=logging.INFO)
     if len(sys.argv) > 1:
         print("Specified interface: " + sys.argv[1])
     try:
         dumper = Airodumper()
+        dumper.oui_list.append("10:")  # dummy todo remove
+        dumper.oui_list.append("D4:")  # dummy todo remove
+        dumper.oui_list.append("40:")  # dummy todo remove
+        dumper.oui_list.append("38:")  # dummy todo remove
         dumper.start()
         dumper.process()
     except KeyboardInterrupt:
