@@ -2,3 +2,4 @@ filesystem
 *.swp
 .idea/
 figures/
+*.log
