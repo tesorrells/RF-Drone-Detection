@@ -32,11 +32,47 @@ Recordings we want to obtain:
 # Experiment Plan 2  
 RF Sonar
 
-- Collect RF data of drone movement using a 2.4Ghz 20dBi gain directional antenna.  
+- Collect RF data of drone movement using a 2.4Ghz 20dBi gain directional antenna by broadcasting from a HackRF attached to the drone.  
 - Identify the drone's wifi channel using a Wifi Analyzer and a spectrum analyzer.  
 - This application provides the channel ID and frequency for listening to the drone’s communication.  
+- Repeat the first step without the HackRF, using just the drones signal if possible.
 - Store the data for filtering in python.  
 
 
 # Experiment plan 3
-Moving body drone data
+**Moving body drone data**
+
+__Ensure this entire experiment has someone filming the drone__
+
+1. Using the information from wifi-analyzer, use a hackRF to listen to the data being transmitted by the drone. 
+Record the following data:
+-------------
+  a. Starting with the drone not moving (propellers still)
+  
+Turn on the propellers and stay on ground for roughly 5 seconds
+
+  b. Take off hovering for roughly 5 seconds
+  
+  c. Move the drone in a t shape, returning to center after reaching each edge.
+  
+  
+-------------
+
+In a Separate Recording of both RF and video:
+
+-------------
+
+a. Again start with a still drone
+
+b. Take off with the drone
+
+c. While hovering in a relatively fixed location, rotate drone 360 degrees around.
+
+d. Navigate the drone in a circle
+
+e. Tilt drone on all axis
+
+
+
+__Repeat recordings with an omni-directional and a directional antenna (preferably one with a more narrow angle, and one with a wider angle).__
+
