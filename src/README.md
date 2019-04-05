@@ -1,7 +1,9 @@
 # Wifi Monitoring
+## Description
 ```bash
 $ sudo python3 ./wifi_monitor.py wlan0
 ```
+wifi_monitor.py will put the wireless card into monitor mode and begin listening for broadcasts that match one of the masks in `oui_list`. Currently, it listens for MAC addresses that start with `62:60:1F` or `60:60:1F` (which belong to DJI).
 
 ## Requirements
 - Python3
@@ -42,3 +44,8 @@ You will want use the `Interface wlan0` portion, not the `phy#0`. Note that in s
 
 If the wireless interface to be used is **wlan0**, you would enter the following:
 ```sudo python3 ./wifi_monitor.py wlan0```
+
+## To Do
+- add MAC address masks for other drone manufacturers
+- include 5Ghz wifi communication
+- move MAC address masks from a `oui_list` to an external file (?)
