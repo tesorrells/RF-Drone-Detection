@@ -37,7 +37,7 @@ def read_hackrf_sweep_file_and_merge(path) -> pd.DataFrame:
     # grouped.get_group('2019-02-15 11:03:17.299693').values[:, 6:].ravel() # todo delete this line
 
     # Read CSV hackrf_sweep output to Pandas DataFrame
-    hackrf_df: pd.DataFrame = pd.read_csv(path, header=None)
+    hackrf_df: pd.DataFrame = pd.read_csv(path, header=None, low_memory=False)
 
     # Index everything by datetime
     datetime = pd.DatetimeIndex(dt_lookup(hackrf_df[0] + hackrf_df[1]))
@@ -104,8 +104,8 @@ def get_heat_map(avg_by_bin):
     i = 5
     avgs_over_distance = avg_by_bin
     while i <= 50:
-        filename_dr = "../data/2019.02.15_dji/2019.02.15.%02d_meters_dji.csv" % i
-        filename_bg = "../data/2019.02.15_dji/2019.02.15.%02d_meters_dji.csv" % i
+        filename_dr = "../../GTRI_drone_data/bothon-01.csv" 
+        filename_bg = "../" % i
         sample_dr = read_hackrf_sweep_file_and_merge(filename_dr)
         sample_bg = read_hackrf_sweep_file_and_merge(filename_bg)
         avg_by_bin_dr = get_mean_by_bin(sample_dr)
@@ -127,6 +127,7 @@ def get_heat_map(avg_by_bin):
     plt.savefig('../figures/heatmap_dr.png')
     ax2.set_title("HackRF bins vs Background Noise")
     plt.savefig('../figures/heatmap_bg.png')
+
 
 
 def make_svm(x_train: pd.DataFrame, x_test: pd.DataFrame, y_train: pd.DataFrame, y_test: pd.DataFrame):
@@ -160,6 +161,38 @@ def plot_learning_curve(estimator: SVC, title, X, y):
     return plt
 
 
+
+def get_scatterplot(filename1, filename2):
+    # Heat Map
+    # need to rename the '5 meter' file to '5' instead of '05' for this to work
+    sample_br = read_hackrf_sweep_file_and_merge(filename1)
+    sample_dr = read_hackrf_sweep_file_and_merge(filename2)
+
+
+    print(sample_dr)
+
+    avg_by_bin_br = get_mean_by_bin(sample_br)
+    avg_by_bin_dr = get_mean_by_bin(sample_dr)
+    #avgs_over_distance_dr = np.reshape(avgs_over_distance, (-1, 180))
+    fig1, ax1 = plt.subplots()
+
+    print(avg_by_bin_dr)
+    ax1.scatter(avg_by_bin_br.index, avg_by_bin_br.values, c="b", label="background only")
+    ax1.scatter(avg_by_bin_dr.index, avg_by_bin_dr.values, c="r", label="drone on")
+
+    plt.legend(loc='upper left')
+
+    ax1.set_title("Background vs Drone Activity")
+    #plt.ylim(-75, -50)
+    plt.xlabel("Frequency (gHz)")
+    plt.ylabel("Signal strength (dB)")
+    plt.savefig('../figures/comparison_scatter.png')
+
+
+if __name__ == "__main__":
+    get_scatterplot('../../GTRI_drone_data/background.csv', '../../GTRI_drone_data/longdistance_withdrone.csv')
+
+'''
 if __name__ == "__main__":
     drone_filename = "../data/2019.02.15_dji/2019.02.15.10_meters_dji.csv"
     noise_filename = "../data/2019.02.15_dji/2019.02.15.bg_after_10_meters_dji.csv"
@@ -191,3 +224,4 @@ if __name__ == "__main__":
     print("\n Creating a split of our positive and negative examples for use in learning models: ")
     x_train, x_test, y_train, y_test = get_train_test_data(positive=[drone_filename], negative=[noise_filename])
     print("Training examples: " + str(x_train.head()) + "\nTraining Labels: " + str(y_train.head()))
+    '''
