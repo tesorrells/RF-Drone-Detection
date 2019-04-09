@@ -4,9 +4,9 @@ import pandas as pd
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-import timeit
-
+from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import learning_curve
 
 
 def dt_lookup(s):
@@ -37,7 +37,7 @@ def read_hackrf_sweep_file_and_merge(path) -> pd.DataFrame:
     # grouped.get_group('2019-02-15 11:03:17.299693').values[:, 6:].ravel() # todo delete this line
 
     # Read CSV hackrf_sweep output to Pandas DataFrame
-    hackrf_df: pd.DataFrame = pd.read_csv(path, header=None)
+    hackrf_df: pd.DataFrame = pd.read_csv(path, header=None, low_memory=False)
 
     # Index everything by datetime
     datetime = pd.DatetimeIndex(dt_lookup(hackrf_df[0] + hackrf_df[1]))
@@ -98,15 +98,114 @@ def get_train_test_data(positive: List, negative: List, testSize=0.2):
     inputs = labeled_data.drop('label', axis=1)
     return train_test_split(inputs, labels, test_size=testSize)
 
+def get_heat_map(avg_by_bin):
+     # Heat Map
+    # need to rename the '5 meter' file to '5' instead of '05' for this to work
+    i = 5
+    avgs_over_distance = avg_by_bin
+    while i <= 50:
+        filename_dr = "../../GTRI_drone_data/bothon-01.csv" 
+        filename_bg = "../" % i
+        sample_dr = read_hackrf_sweep_file_and_merge(filename_dr)
+        sample_bg = read_hackrf_sweep_file_and_merge(filename_bg)
+        avg_by_bin_dr = get_mean_by_bin(sample_dr)
+        avg_by_bin_bg = get_mean_by_bin(sample_bg)
+        if i is 5:
+            x = 0
+        else:
+
+            avgs_over_distance_dr = np.append(avgs_over_distance_dr, avg_by_bin_dr)
+            avgs_over_distance_bg = np.append(avgs_over_distance_bg, avg_by_bin_bg)
+        i = i + 5
+    avgs_over_distance_dr = np.reshape(avgs_over_distance, (-1, 180))
+    avgs_over_distance_bg = np.reshape(avgs_over_distance, (-1, 180))
+    fig1, ax1 = plt.subplots()
+    im1 = ax1.imshow(avgs_over_distance_dr)
+    fig2, ax2 = plt.subplots()
+    im2 = ax2.imshow(avgs_over_distance_bg)
+    ax1.set_title("HackRF bins vs Distance to Drone")
+    plt.savefig('../figures/heatmap_dr.png')
+    ax2.set_title("HackRF bins vs Background Noise")
+    plt.savefig('../figures/heatmap_bg.png')
+
+
+
+def make_svm(x_train: pd.DataFrame, x_test: pd.DataFrame, y_train: pd.DataFrame, y_test: pd.DataFrame):
+    clf = SVC(gamma='auto')
+    return(clf.fit(x_train, y_train))
+
+def plot_learning_curve(estimator: SVC, title, X, y):
+    plt.figure()
+    plt.title(title)
+    plt.xlabel("Training Examples")
+    plt.ylabel("Score")
+    train_sizes, train_scores, test_scores = learning_curve(estimator, X, y)
+    train_scores_mean = np.mean(train_scores, axis = 1)
+    train_scores_std = np.std(train_scores, axis=1)
+    test_scores_mean = np.mean(test_scores, axis=1)
+    test_scores_std = np.std(test_scores, axis=1)
+
+    plt.grid()
+
+    plt.fill_between(train_sizes, train_scores_mean - train_scores_std,
+                     train_scores_mean + train_scores_std, alpha=0.1,
+                     color="r")
+    plt.fill_between(train_sizes, test_scores_mean - test_scores_std,
+                     test_scores_mean + test_scores_std, alpha=0.1, color="g")
+    plt.plot(train_sizes, train_scores_mean, 'o-', color="r",
+             label="Training score")
+    plt.plot(train_sizes, test_scores_mean, 'o-', color="g",
+             label="Cross-validation score")
+
+    plt.legend(loc="best")
+    return plt
+
+
+
+def get_scatterplot(filename1, filename2):
+    # Heat Map
+    # need to rename the '5 meter' file to '5' instead of '05' for this to work
+    sample_br = read_hackrf_sweep_file_and_merge(filename1)
+    sample_dr = read_hackrf_sweep_file_and_merge(filename2)
+
+
+    print(sample_dr)
+
+    avg_by_bin_br = get_mean_by_bin(sample_br)
+    avg_by_bin_dr = get_mean_by_bin(sample_dr)
+    #avgs_over_distance_dr = np.reshape(avgs_over_distance, (-1, 180))
+    fig1, ax1 = plt.subplots()
+
+    print(avg_by_bin_dr)
+    ax1.scatter(avg_by_bin_br.index, avg_by_bin_br.values, c="b", label="background only")
+    ax1.scatter(avg_by_bin_dr.index, avg_by_bin_dr.values, c="r", label="drone on")
+
+    plt.legend(loc='upper left')
+
+    ax1.set_title("Background vs Drone Activity")
+    #plt.ylim(-75, -50)
+    plt.xlabel("Frequency (gHz)")
+    plt.ylabel("Signal strength (dB)")
+    plt.savefig('../figures/comparison_scatter.png')
+
 
 if __name__ == "__main__":
-    drone_filename = "../data/2019.02.15_dji/2019.02.15.25_meters_dji.csv"
-    noise_filename = "../data/2019.02.15_dji/2019.02.15.bg_after_25_meters_dji.csv"
+    get_scatterplot('../../GTRI_drone_data/background.csv', '../../GTRI_drone_data/longdistance_withdrone.csv')
+
+'''
+if __name__ == "__main__":
+    drone_filename = "../data/2019.02.15_dji/2019.02.15.10_meters_dji.csv"
+    noise_filename = "../data/2019.02.15_dji/2019.02.15.bg_after_10_meters_dji.csv"
+    
+
+if __name__ == "__main__":
+    drone_filename = "../data/2019.02.15_dji/2019.02.15.10_meters_dji.csv"
+    noise_filename = "../data/2019.02.15_dji/2019.02.15.bg_after_10_meters_dji.csv"
 
     # filename = "../data/25_meters.csv"
     print("Working in %s" % os.getcwd())
     print("Using file %s" % drone_filename)
-    print("Example of reading in 25 meter dji data")
+    print("Example of reading in 10 meter dji data")
     print("=======================================")
     sample_data = read_hackrf_sweep_file_and_merge(drone_filename)
     sample_data.info()  # just print out some info about the dataframe
@@ -125,25 +224,4 @@ if __name__ == "__main__":
     print("\n Creating a split of our positive and negative examples for use in learning models: ")
     x_train, x_test, y_train, y_test = get_train_test_data(positive=[drone_filename], negative=[noise_filename])
     print("Training examples: " + str(x_train.head()) + "\nTraining Labels: " + str(y_train.head()))
-
-    # Heat Map
-    # need to rename the '5 meter' file to '5' instead of '05' for this to work
-    i = 5
-    avgs_over_distance = avg_by_bin
-    while i <= 50:
-        filename = "../data/2019.02.15_dji/2019.02.15.%02d_meters_dji.csv" % i
-        sample_data = read_hackrf_sweep_file_and_merge(filename)
-        avg_by_bin = get_mean_by_bin(sample_data)
-        if i is 5:
-            x = 0
-        else:
-
-            avgs_over_distance = np.append(avgs_over_distance, avg_by_bin)
-        i = i + 5
-    avgs_over_distance = np.reshape(avgs_over_distance, (-1, 180))
-    fig, ax = plt.subplots()
-    im = ax.imshow(avgs_over_distance)
-    ax.set_title("HackRF bins vs Distance to Drone")
-    plt.savefig('../figures/heatmap.png')  # todo will fail if ../figures/ dir doesn't exist
-
-    pass
+    '''
