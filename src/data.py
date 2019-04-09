@@ -76,6 +76,18 @@ def get_mean_by_bin(df: pd.DataFrame) -> pd.Series:
     return df.mean(axis=0)
 
 
+def get_max_by_bin(df: pd.DataFrame) -> pd.Series:
+    """
+    Takes all the sweep data from the input dataframe as returned by read_hackrf_sweep_file_and_merge
+    and gets the max db for each bin.
+    Returns as a pandas Series
+
+    :param df: pd.DataFrame from experiment in question
+    :return: pd.Series of average
+    """
+    return df.max(axis=0)
+
+
 def get_train_test_data(positive: List, negative: List, testSize=0.2):
     """
     Takes in string or list of string paths to data files for both positive and
@@ -174,14 +186,14 @@ def get_scatterplot(filename1, filename2):
 
     print(sample_dr)
 
-    avg_by_bin_br = get_mean_by_bin(sample_br)
-    avg_by_bin_dr = get_mean_by_bin(sample_dr)
+    max_by_bin_br = get_max_by_bin(sample_br)
+    max_by_bin_dr = get_max_by_bin(sample_dr)
     #avgs_over_distance_dr = np.reshape(avgs_over_distance, (-1, 180))
     fig1, ax1 = plt.subplots()
 
-    print(avg_by_bin_dr)
-    ax1.scatter(avg_by_bin_br.index, avg_by_bin_br.values, c="b", label="background only")
-    ax1.scatter(avg_by_bin_dr.index, avg_by_bin_dr.values, c="r", label="drone on")
+    print(max_by_bin_dr)
+    ax1.scatter(max_by_bin_br.index, max_by_bin_br.values, c="b", label="background only")
+    ax1.scatter(max_by_bin_dr.index, max_by_bin_dr.values, c="r", label="drone on")
 
     plt.legend(loc='upper left')
 
