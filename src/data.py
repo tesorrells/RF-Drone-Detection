@@ -201,7 +201,7 @@ def get_scatterplot(filename1, filename2):
     #plt.ylim(-75, -50)
     plt.xlabel("Frequency (gHz)")
     plt.ylabel("Signal strength (dB)")
-    plt.savefig('../figures/comparison_scatter.png')
+    plt.savefig('../figures/comparison_scatter_MAX.png')
 
 
 if __name__ == "__main__":
