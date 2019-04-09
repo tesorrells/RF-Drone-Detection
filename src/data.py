@@ -58,6 +58,9 @@ def read_hackrf_sweep_file_and_merge(path) -> pd.DataFrame:
     bin_size = (max_freq - min_freq) / num_bins  # in hz
     merged_df.columns = [int((min_freq + x * bin_size)) for x in range(0, num_bins)]
 
+    # FIX for scatterplot -- make sure it contains FLOATS not STRINGS!
+    merged_df = merged_df.astype(float)
+
     return merged_df
 
 
