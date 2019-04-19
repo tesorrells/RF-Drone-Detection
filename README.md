@@ -13,6 +13,7 @@ This aim of this project is to research and evaluate different methods for passi
   1. Nvidia Jetson Tegra TK1 - *only necessary if deploying a sensor in the future*
 2. Software Setup
   1. HackRF One Tools
+  2. GNU Radio
 2. Detection Methodologies
   1. HackRF Sweep
   2. GNU Radio
@@ -100,13 +101,18 @@ Although not necessary for our prototyping purposes, the following should be con
 - Create & copy SSH public keys to the Jetson using `ssh-copy-id -i your-key-here jetson-hostname-here` or manually.
 - Configure a firewall, such as `ufw`, as there is none active by default.
 
-# Build Instructions for HackRF Tools
+## 2.1 HackRF One Tools
+hackrf_sweep is a tool provided by the creators of the HackRF One that scans a given frequency range and outputs the measurements as a comma separated value (csv) file.
+
+### Build & Installation Instructions
+In order to use hackrf_sweep, we need to install the HackRF tools. These directions are the same whether you are installing them on the Jetson or your Ubuntu computer.
+
 Follow directions on https://github.com/mossmann/hackrf/tree/master/host
-(This doesn't take very long to build. Maybe a few minutes.)
+(This doesn't take very long to build, maybe a few minutes.)
 
-You will also need to make sure that your user (ubuntu) is a member of the *plugdev* group. Simply enter `sudo usermod -a -G plugdev ubuntu`. May require reboot, then type `groups` to verify that ubuntu is a member of *plugdev*.
+You will also need to make sure that your user (ubuntu) is a member of the *plugdev* group. Simply enter ```sudo usermod -a -G plugdev ubuntu```. Then reboot the Jetson and type `groups` to verify that ubuntu is a member of *plugdev*.
 
-The TK1 will auto-suspend the USB by default, so we want to disable this and reboot the tegra. Add the following line to `/etc/rc.local` and then reboot ([source](https://elinux.org/Jetson/Performance#Maximizing_CPU_performance)):
+The TK1 will auto-suspend the USB by default, causing instability and the inability to get measurements from the HackRF. We want to disable this and reboot the tegra. Add the following line to `/etc/rc.local` and then reboot ([source](https://elinux.org/Jetson/Performance#Maximizing_CPU_performance)):
 ```
 echo -1 > /sys/module/usbcore/parameters/autosuspend
 ```
