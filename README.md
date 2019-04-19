@@ -10,14 +10,14 @@ Team members:
 This aim of this project is to research and evaluate different methods for passively detecting the presence of drones by analyzing drone and controller Radio Frequency communications. As such, documentation will be divided according by methodology as follows:
 
 1. Hardware Setup
-  1. Nvidia Jetson Tegra TK1 - *only necessary if deploying a sensor in the future*
+   1. Nvidia Jetson Tegra TK1 - *only necessary if deploying a sensor in the future*
 2. Software Setup
-  1. HackRF One Tools
-  2. GNU Radio
+   1. HackRF One Tools
+   2. GNU Radio
 2. Detection Methodologies
-  1. HackRF Sweep
-  2. GNU Radio
-  3. Wi-Fi Detection
+   1. HackRF Sweep
+   2. GNU Radio
+   3. Wi-Fi Detection
 
 # 1. Hardware Setup
 ## 1.1 Nvidia Jetson Tegra TK1 Hardware Setup
