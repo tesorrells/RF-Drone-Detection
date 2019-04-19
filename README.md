@@ -138,10 +138,13 @@ Part ID Number: 0x######## 0x########
 From gnuradio.org:
 >GNU Radio is a free & open-source software development toolkit that provides signal processing blocks to implement software radios. It can be used with readily-available low-cost external RF hardware to create software-defined radios, or without hardware in a simulation-like environment. It is widely used in research, industry, academia, government, and hobbyist environments to support both wireless communications research and real-world radio systems.
 
-### Build & Installation Instructions
+### Installation Instructions
 We used GNU Radio on an Ubuntu 18.04 64-bit laptop to observe communications between a DJI Phantom II and its controller and to attempt to measure drone body vibrations using two HackRF One devices (see 3.2). It is also possible to install GNU Radio on the Jetson, although this proved to be unnecessary for our research.
 
 Unless there is a compelling reason, you want to use the version of GNU Radio that comes in the Ubuntu 18.04 repositories.
 ```sh
 sudo apt-get install gnuradio
 ```
+> Details for other distributions/OS's can be found on the [GNU Radio Wiki](https://wiki.gnuradio.org/index.php/InstallingGR)
+
+It is also possible to [build and install GNU Radio from source](https://wiki.gnuradio.org/index.php/InstallingGRFromSource#Using-the-build-gnuradio-script), although the process is far more complicated and time intensive.
