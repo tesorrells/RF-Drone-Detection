@@ -101,8 +101,8 @@ Although not necessary for our prototyping purposes, the following should be con
 - Create & copy SSH public keys to the Jetson using `ssh-copy-id -i your-key-here jetson-hostname-here` or manually.
 - Configure a firewall, such as `ufw`, as there is none active by default.
 
-## 2.1 HackRF One Tools
-hackrf_sweep is a tool provided by the creators of the HackRF One that scans a given frequency range and outputs the measurements as a comma separated value (csv) file.
+## 2.1 HackRF One Tools Installation
+`hackrf_sweep` is a tool provided by the creators of the HackRF One that scans a given frequency range and outputs the measurements as a comma separated value (csv) file.
 
 ### Build & Installation Instructions
 In order to use hackrf_sweep, we need to install the HackRF tools. These directions are the same whether you are installing them on the Jetson or your Ubuntu computer.
@@ -112,14 +112,36 @@ Follow directions on https://github.com/mossmann/hackrf/tree/master/host
 
 You will also need to make sure that your user (ubuntu) is a member of the *plugdev* group. Simply enter ```sudo usermod -a -G plugdev ubuntu```. Then reboot the Jetson and type `groups` to verify that ubuntu is a member of *plugdev*.
 
-The TK1 will auto-suspend the USB by default, causing instability and the inability to get measurements from the HackRF. We want to disable this and reboot the tegra. Add the following line to `/etc/rc.local` and then reboot ([source](https://elinux.org/Jetson/Performance#Maximizing_CPU_performance)):
+There is an issue with the HackRF on many distribution sin which computer will auto-suspend the USB by default, causing instability and the inability to get measurements from the HackRF. We want to disable this and reboot the tegra. Add the following line to `/etc/rc.local` and then reboot ([source](https://elinux.org/Jetson/Performance#Maximizing_CPU_performance)):
 ```
 echo -1 > /sys/module/usbcore/parameters/autosuspend
 ```
 
-# Installing GNU Radio
-~~To install gnuradio, use gnuradios build system called PyBOMBS (link below). The Ubuntu Universe repository version tends to be outdated. Build gnuradio using PyBOMBS from source following [these directions](https://github.com/gnuradio/pybombs/). This takes a significant amount of time. I had trouble using `sudo pip install PyBOMBS`, so instead use `$ [sudo] pip install git+https://github.com/gnuradio/pybombs.git` to install the latest version from git.~~
-** Still in progress **
+Finally, run the `hackrf_info` command.
+
+If everything installed correctly, you should see something like the following:
+
+```
+hackrf_info version: 2017.02.1
+libhackrf version: 2017.02.1 (0.5)
+Found HackRF
+Index: 0
+Serial number: 0000000000000000################
+Board ID Number: 2 (HackRF One)
+Firmware Version: 2017.02.1 (API:1.02)
+Part ID Number: 0x######## 0x########
+```
+
+## 2.2 GNU Radio Installation
+[GNU Radio](https://www.gnuradio.org/) is an advanced tool used in our detection methodology as described in section 3.2.
+
+From gnuradio.org:
+>GNU Radio is a free & open-source software development toolkit that provides signal processing blocks to implement software radios. It can be used with readily-available low-cost external RF hardware to create software-defined radios, or without hardware in a simulation-like environment. It is widely used in research, industry, academia, government, and hobbyist environments to support both wireless communications research and real-world radio systems.
+
+### Build & Installation Instructions
+We used GNU Radio on an Ubuntu 18.04 64-bit laptop to observe communications between a DJI Phantom II and its controller and to attempt to measure drone body vibrations using two HackRF One devices (see 3.2). It is also possible to install GNU Radio on the Jetson, although this proved to be unnecessary for our research.
+
+Unless there is a compelling reason, you want to use the version of GNU Radio that comes in the Ubuntu 18.04 repositories.
 ```sh
 sudo apt-get install gnuradio
 ```
