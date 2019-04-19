@@ -19,18 +19,21 @@ This aim of this project is to research and evaluate different methods for passi
 
 # 1. Hardware Setup
 ## 1.1 Nvidia Jetson Tegra TK1 Hardware Setup
-If any of the detection methodologies are to be deployed in the future, they will need to be hosted on a Linux computer. GTRI provided us with several Jetson
+If any of the detection methodologies are to be deployed in the future, they will need to be hosted on a Linux computer. GTRI provided us with several [Nvidia Jetson TK1](https://www.nvidia.com/object/jetson-tk1-embedded-dev-kit.html) development boards for prototyping. This section describes how to configure the Jetson for use with the HackRF One SDR.
+
 ### Important Notes: Read Before Proceeding
 NEVER run `sudo apt-get dist-upgrade`. This will overwrite important Jetson Tegra TK1 files and render the system inoperable. Follow NVIDIA's directions for upgrading the system.
 
-Try to use tmux or screen when running important commands over ssh, in case the connection is lost.
+Use `tmux` or `screen` when running important commands over ssh, in case the connection is lost.
 
-SSH: By default, you can only connect to the TK1 using ssh password authentication from the local network. In order to connect remotely, you will have to use public key authentication.
+Secure Shell: By default, you can only connect to the TK1 using ssh password authentication from the local network. In order to connect remotely, you will have to use public key authentication.
+
+*Note:* Make sure to have a USB-RS232 serial adapter available with Null Modem adapter. This provides a more reliable method of communication with the device than SSH / HDMI when something goes awry. *Also note that the serial console is unsecured by default.*
 
 ### Initial Hardware Setup
-*Note:* Make sure to have a USB-RS232 serial adapter available with Null Modem adapter. This provides a more reliable method of communication with the device than SSH / HDMI when something goes awry. **Note that the serial console is unsecured by default.**
 
-Use a program such as *screen* or *minicom* to connect over serial.
+
+Use a program such as *screen* or *minicom* to connect over serial using a USB-RS232 serial adapter with Null Modem Adapter.
 ```sh
 # Example using screen
 sudo screen /dev/ttyUSB0 115200
@@ -38,17 +41,24 @@ sudo screen /dev/ttyUSB0 115200
 
 ### Flashing the Jetson Tegra TK1
 #### Important Notes BEFORE Flashing
-While you *may* be able to flash using the Jetson Jetpack GUI, we found it more straightforward to reflash from the command line using Ubuntu. If using the offical Jetson Jetpack to flash, it does not work with Ubuntu 18.04+, requires Ubuntu 16.04 (although Nvidia forums have a fix, it appears to only work for newer Jetson models). Unclear if flashing using this method through a VM is possible.
-#### Flashing from 64-bit Ubuntu 18.04
-If on a 64-bit host, see [this post](https://devtalk.nvidia.com/default/topic/1037298/jetson-tk1/flash-tk1-from-ubuntu-18-04-/) for a fix:
-```sh
-# Replace this line of Linux_for_Tegra/flash.sh:
-mkfs -t $4 ${loop_dev} > /dev/null 2>&1;
-# With this line
-mkfs -t $4 -O ^metadata_csum,^64bit ${loop_dev} > /dev/null 2>&1;
-```
+While you *may* be able to flash using the Jetson Jetpack GUI, we found it more straightforward to reflash from the command line using Ubuntu. If using the official Jetson Jetpack to flash, it does not work with Ubuntu 18.04+ -- it requires Ubuntu 16.04 (although Nvidia forums have a fix, it appears to only work for newer Jetson models).
 
-Flashing the TK1 may be necessary initially or if the system becomes corrupted. To do so, [go to 'Tegra K1' Section](https://developer.nvidia.com/embedded/linux-tegra-archive) and select most recent release. As of the writing of this document, R21.7 is the most recent. Directions for reflashing the device can be found in the *Quick Start Guide*, but make sure to observe the notes above.
+It is unclear if flashing using this method through a virtual machine is possible. We *highly* recommend flashing from a Ubuntu 18.04 machine, as this is the method we had success with.
+
+#### Flashing Instructions
+Flashing the TK1 may be necessary initially or if the system becomes corrupted. As of the writing of this document, R21.7 is the most recent and the main page for the release [can be found here](https://developer.nvidia.com/linux-tegra-r217). Directions for flashing the device can be found in the [R21.7 Quick Start Guide](https://developer.nvidia.com/embedded/dlc/quick-start-guide-r217), but make sure to observe the notes above and the note below (in the likely event your Ubuntu computer is 64-bit).
+
+> #### Flashing from 64-bit Ubuntu 18.04
+>If on a 64-bit host, there is an issue you will need to address.
+>```sh
+># Replace this line of Linux_for_Tegra/flash.sh:
+>mkfs -t $4 ${loop_dev} > /dev/null 2>&1;
+># With this line
+>mkfs -t $4 -O ^metadata_csum,^64bit ${loop_dev} > /dev/null 2>&1;
+>```
+>The original post describing this issue and fix can [be found here](https://devtalk.nvidia.com/default/topic/1037298/jetson-tk1/flash-tk1-from-ubuntu-18-04-/) on Nvidia's forum.
+
+
 
 #### After Flash
 Again, make sure to have serial console access for troubleshooting.
