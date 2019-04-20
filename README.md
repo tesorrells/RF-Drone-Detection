@@ -163,7 +163,8 @@ In an attempt to recreate an experiment described in section 2.3.2 of [the previ
 
 This is anothr experiment used to collect data for body vibration and shifting pattern identification and would prove useful in creating a more generallize drone detection mechanism.
 
-Refer to [Experiment 1](https://github.com/tesorrells/RF-Drone-Detection/blob/master/Experiment_Outline.md#experiment-plan-1) and [Experiment 2](https://github.com/tesorrells/RF-Drone-Detection/blob/master/Experiment_Outline.md#experiment-plan-2)
+Refer to [Experiment 1](Experiment_Outline.md#experiment-plan-1) and [Experiment 2](Experiment_Outline.md#experiment-plan-2)
+
 ## 3.3. Wi-Fi Detection
 ### Description
 Using passive Wi-Fi monitoring, we were able to identify the presence of a drone by comparing the MAC address OUI prefix (the first 24 bits of a wireless card's MAC address) to a list of known drone manufacturers.
