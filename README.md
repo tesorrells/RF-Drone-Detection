@@ -14,13 +14,13 @@ This is the initial release of our drone detection device. Previous releases lea
 - This release also came with a large amount of documentation and a clean up of our git branching
 
 ### Known issues and proposed fixes
-Our method of detection relies on looking at mac addresses in the local area and checking if their OUI matches that of any drone manufacturers. As such, we are vulnerable to any mac address spoofing and risk the chance of having false positives for non-drone devices by these same manufacturers. 
+Our method of detection relies on looking at mac addresses in the local area and checking if their OUI matches that of any drone manufacturers. As such, we are vulnerable to any mac address spoofing and risk the chance of having false positives for non-drone devices by these same manufacturers.
 
 One possible solution that could address both of the above problems would be to use a model that can detect noise in the signal that is indicative of drone body vibration. This mechanism as well as experiments that can be used to move forward with this solution are outlined later in this document.
 
 
 ## Summary
-This aim of this project is to research and evaluate different methods for passively detecting the presence of drones by analyzing drone and controller Radio Frequency communications. As such, documentation will be divided according by methodology as follows:
+This aim of this project is to research and evaluate different methods for passively detecting the presence of drones by analyzing drone and controller Radio Frequency communications. As such, the documentation is divided into Setup (Hardware & Software) and Detection Methodologies.
 
 1. [Hardware Setup](#1-hardware-setup)
    - 1.1. Nvidia Jetson Tegra TK1 - *only necessary if deploying a sensor in the future*
