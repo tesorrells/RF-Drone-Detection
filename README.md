@@ -151,9 +151,19 @@ sudo apt-get install gnuradio
 
 It is also possible to [build and install GNU Radio from source](https://wiki.gnuradio.org/index.php/InstallingGRFromSource#Using-the-build-gnuradio-script), although the process is far more complicated and time intensive.
 
-# 3. Detection Methodologies
-## 3.1. HackRF Sweep
-## 3.2. GNU Radio
+# 3. Detection Methodologies and research
+## 3.1. HackRF Sweep Experiment
+We attempted to make use of the data gathered using the [HackRF sweep functionality](https://github.com/mossmann/hackrf/wiki/hackrf_sweep) on the 2.4GHz range to determine if any given activity was coming from a drone. This research experiment was designed to create data similar to that used in the [research performed at Colorado](http://www.cs.colorado.edu/~rhan/Papers/p17-nguyen.pdf).
+
+With the experiment's data, we attempted to use a FFT see if there is any high frequency, low amplitude noise coming from the drone signal that could indicate body vibration caused by the propellors in motion. While we were not able to successfully recreate these visualizations or model this behavior in a way suitable for detection, we believe the data we collected could be further experimented with to do so.
+
+Refer to [Experiment 3](https://github.com/tesorrells/RF-Drone-Detection/blob/master/Experiment_Outline.md#experiment-plan-3)
+## 3.2. GNU Radio Experiment
+In an attempt to recreate an experiment described in section 2.3.2 of [the previously mentioned paper](http://www.cs.colorado.edu/~rhan/Papers/p17-nguyen.pdf), we made use of two simple GNU radio scripts and a Hack RF attatched to a drone. 
+
+This is anothr experiment used to collect data for body vibration and shifting pattern identification and would prove useful in creating a more generallize drone detection mechanism.
+
+Refer to [Experiment 1](https://github.com/tesorrells/RF-Drone-Detection/blob/master/Experiment_Outline.md#experiment-plan-1) and [Experiment 2](https://github.com/tesorrells/RF-Drone-Detection/blob/master/Experiment_Outline.md#experiment-plan-2)
 ## 3.3. Wi-Fi Detection
 ### Description
 Using passive Wi-Fi monitoring, we were able to identify the presence of a drone by comparing the MAC address OUI prefix (the first 24 bits of a wireless card's MAC address) to a list of known drone manufacturers.
