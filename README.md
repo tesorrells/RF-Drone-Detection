@@ -198,10 +198,35 @@ Output fields:
 #### Processing hackrf_sweep data
 [hackrf_sweep-process-data.py](src/hackrf_sweep-process-data.py)
 
-## 3.2. GNU Radio Experiment
-In an attempt to recreate an experiment described in section 2.3.2 of [the previously mentioned paper](http://www.cs.colorado.edu/~rhan/Papers/p17-nguyen.pdf), we made use of two simple GNU radio scripts and a Hack RF attatched to a drone.
+This Python script is used to process and visualize the data output from hackrf_sweep.
 
-This is anothr experiment used to collect data for body vibration and shifting pattern identification and would prove useful in creating a more generallize drone detection mechanism.
+##### Requirements:
+- Python3
+- pipenv
+- pip3
+
+##### Installation
+To install the requirements for Ubuntu 18.04:
+```bash
+sudo apt install python3 pip3
+pip3 install --user pipenv
+git clone git@github.com:tesorrells/RF-Drone-Detection.git
+cd ./RF-Drone-Detection
+```
+
+##### Usage
+To process the output data from the hackrf_sweep:
+```bash
+cd ./RF-Drone-Detection
+pipenv shell # activate shell from Pipfile
+python3 ./src/hackrf_sweep-process-data.py
+```
+Further details and documentation can be found in: [src/hackrf_sweep-process-data.py](src/hackrf_sweep-process-data.py)
+
+## 3.2. GNU Radio Experiment
+In an attempt to recreate an experiment described in section 2.3.2 of [the previously mentioned paper](http://www.cs.colorado.edu/~rhan/Papers/p17-nguyen.pdf), we made use of two simple GNU radio scripts and a Hack RF attached to a drone.
+
+This is another experiment used to collect data for body vibration and shifting pattern identification and would prove useful in creating a more generalize drone detection mechanism.
 
 Refer to [Experiment 1](Experiment_Outline.md#experiment-plan-1) and [Experiment 2](Experiment_Outline.md#experiment-plan-2)
 
