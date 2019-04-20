@@ -20,7 +20,7 @@ This aim of this project is to research and evaluate different methods for passi
    - 3.3. Wi-Fi Detection
 
 # 1. Hardware Setup
-## 1.1 Nvidia Jetson Tegra TK1 Hardware Setup
+## 1.1 Nvidia Jetson Tegra TK1
 If any of the detection methodologies are to be deployed in the future, they will need to be hosted on a Linux computer. GTRI provided us with several [Nvidia Jetson TK1](https://www.nvidia.com/object/jetson-tk1-embedded-dev-kit.html) development boards for prototyping.
 
 This section describes how to get the Jetson Tegra TK1 up and running.
