@@ -10,7 +10,7 @@ Team members:
 This is the initial release of our drone detection device. Previous releases leading up to this have consisted of research, experiments and data visualization tools.
 
 ### New Features
-- With this version we are releasing a script that is capable of monitoring local wifi activity. Continue reading for usage instruction for `wifi_monitor.py`.
+- With this version we are releasing a script that is capable of monitoring local Wi-Fi activity. Continue reading for usage instruction for `wifi_monitor.py`.
 - This release also came with a large amount of documentation and a clean up of our git branching
 
 ### Known Issues and Proposed Fixes
@@ -81,7 +81,7 @@ Directions for flashing the device can be found in that page following the [R21.
 >The original post describing this issue and fix can [be found here](https://devtalk.nvidia.com/default/topic/1037298/jetson-tk1/flash-tk1-from-ubuntu-18-04-/) on Nvidia's forum.
 
 
-#### After Sucessful Flash
+#### After Successful Flash
 ##### Update Jetson's Ubuntu Repositories
 Again, make sure to have serial console access for troubleshooting.
 
@@ -260,7 +260,7 @@ A very complete list of OUI prefixes compiled by the Wireshark team can be found
 - Root permissions on a Ubuntu 18.04 computer
 - Airodump-ng (part of the [Aircrack-ng suite](https://aircrack-ng.org/))
 	- Tested with version 1.2 rc4 on Ubuntu 18.04
-- Wifi Adapter capable of [**monitor mode**]([https://aircrack-ng.org/doku.php?id=compatible_cards)
+- Wi-Fi Adapter capable of [**monitor mode**]([https://aircrack-ng.org/doku.php?id=compatible_cards)
 	- Tested with [TP-Link TLWN722N](https://www.amazon.com/s/ref=choice_dp_b?keywords=TP-Link%20TLWN722N) (FCC ID: TE7WNN722N), which is 2.4Ghz only.
 
 ### Installation
@@ -281,11 +281,11 @@ sudo python3 ./wifi_monitor.py
 wifi_monitor.py will put the wireless card into monitor mode and begin listening for broadcasts that match one of the masks in `oui_list`. Currently, it listens for MAC addresses that start with `62:60:1F` or `60:60:1F` (which belong to DJI) and notifies the user when a drone is detected though terminal output.
 
 #### Interface selection
-If there is only one wifi interface, wifi_monitor.py will automatically select and use it, so there is no need to pass it as an interface as an argument when run. This  will suffice:
+If there is only one Wi-Fi interface, wifi_monitor.py will automatically select and use it, so there is no need to pass it as an interface as an argument when run. This  will suffice:
 ```bash
 sudo python3 ./wifi_monitor.py
 ```
-Otherwise, you can find the wifi interfaces with `iw dev`, which will produce output something like:
+Otherwise, you can find the Wi-Fi interfaces with `iw dev`, which will produce output something like:
 
 ```bash
 $ iw dev
