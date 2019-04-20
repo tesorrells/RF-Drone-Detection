@@ -155,29 +155,42 @@ It is also possible to [build and install GNU Radio from source](https://wiki.gn
 ## 3.1. HackRF Sweep
 ## 3.2. GNU Radio
 ## 3.3. Wi-Fi Detection
+### Description
+Using passive Wi-Fi monitoring, we were able to identify the presence of a drone by comparing the MAC address OUI prefix (the first 24 bits of a wireless card's MAC address) to a list of known drone manufacturers.
+
+[wifi_monitor.py](src/wifi_monitor.py) uses airodump-ng to passively listen for Wi-Fi RF communication frames.  
+
+This was tested on a Ubuntu 18.04 laptop, but can also be used on the Jetson.
+
 ### Requirements
 - Python3
-- Root permissions
-- Airodump-ng (part of Aircrack-ng)
+- Root permissions on a Ubuntu 18.04 computer
+- Airodump-ng (part of the [Aircrack-ng suite](https://aircrack-ng.org/))
 	- Tested with version 1.2 rc4 on Ubuntu 18.04
-	- https://aircrack-ng.org/
 - Wifi Adapter capable of [**monitor mode**]([https://aircrack-ng.org/doku.php?id=compatible_cards)
-	- Tested with TP-Link TLWN722N (FCC ID: TE7WNN722N), which is 2.4Ghz only.
-### Description
-[wifi_monitor.py](src/wifi_monitor.py)
+	- Tested with [TP-Link TLWN722N](https://www.amazon.com/s/ref=choice_dp_b?keywords=TP-Link%20TLWN722N) (FCC ID: TE7WNN722N), which is 2.4Ghz only.
 
+### Installation
+You will need to install python3 (likely already installed) and aircrack-ng on your Ubuntu 18.04 computer.
+
+Enter the following into the terminal:
 ```bash
-$ sudo python3 ./wifi_monitor.py wlan0
+sudo apt-get install aircrack-ng python3
 ```
-wifi_monitor.py will put the wireless card into monitor mode and begin listening for broadcasts that match one of the masks in `oui_list`. Currently, it listens for MAC addresses that start with `62:60:1F` or `60:60:1F` (which belong to DJI).
+> Directions for other operating systems and distributions available at https://www.aircrack-ng.org/doku.php?id=install_aircrack
 
 ### Usage
 Airodump-ng and Airmon-ng require that wifi_monitor.py be run with root permissions.
 
-#### Interface selection
-If there is only one wifi interface, wifi_monitor will automatically select and use it, so there is no need to pass it as an interface as an argument when run. This  will suffice:
 ```bash
-$ sudo python3 ./wifi_monitor.py
+sudo python3 ./wifi_monitor.py
+```
+wifi_monitor.py will put the wireless card into monitor mode and begin listening for broadcasts that match one of the masks in `oui_list`. Currently, it listens for MAC addresses that start with `62:60:1F` or `60:60:1F` (which belong to DJI) and notifies the user when a drone is detected though terminal output.
+
+#### Interface selection
+If there is only one wifi interface, wifi_monitor.py will automatically select and use it, so there is no need to pass it as an interface as an argument when run. This  will suffice:
+```bash
+sudo python3 ./wifi_monitor.py
 ```
 Otherwise, you can find the wifi interfaces with `iw dev`, which will produce output something like:
 
@@ -199,10 +212,18 @@ phy#1
 
 You will want use the `Interface wlan0` portion, not the `phy#0`. Note that in some distributions, the interface may be names differently (such as `wlxa0f3c11e13c2`, for example).
 
-If the wireless interface to be used is **wlan0**, you would enter the following:
-```sudo python3 ./wifi_monitor.py wlan0```
+If the wireless interface to be used is **wlanx**, you would enter the following:
+```bash
+sudo python3 ./wifi_monitor.py wlanx
+```
 
-### To Do
-- add MAC address masks for other drone manufacturers
-- include 5Ghz wifi communication
-- move MAC address masks from a `oui_list` to an external file (?)
+### Known Issues and Limitations
+- Susceptible to false positives if manufacturer OUI is also used on non-drone devices
+- Creating false positives is rather trivial for an attacker using the aircrack-ng tool suite
+- Does not currently use 5Ghz Wi-Fi band
+
+### Future Work
+- Add MAC address masks for more drone manufacturers
+- Include 5Ghz Wi-Fi communication band
+- Move MAC address OUI masks to an external file
+- Use SSID name to validate whether or not it is a drone/controller
