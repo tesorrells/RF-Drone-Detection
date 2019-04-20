@@ -224,11 +224,13 @@ python3 ./src/hackrf_sweep-process-data.py
 Further details and documentation can be found in: [src/hackrf_sweep-process-data.py](src/hackrf_sweep-process-data.py)
 
 ## 3.2. GNU Radio Experiment
-In an attempt to recreate an experiment described in section 2.3.2 of [the previously mentioned paper](http://www.cs.colorado.edu/~rhan/Papers/p17-nguyen.pdf), we made use of two simple GNU radio scripts and a Hack RF attached to a drone.
+In an attempt to recreate an experiment described in [section 2.3.2 of the previously mentioned paper](http://www.cs.colorado.edu/~rhan/Papers/p17-nguyen.pdf), we made use of two simple GNU radio scripts and a HackRF attached to a drone.
+
+The GNU Radio flow graph [gnuradio-transmit-sinewave.grc](src/gnuradio-transmit-sinewave.grc) was used to transmit a sine wave at 2.4 GHz from the HackRF attached to the drone. Its counterpart, [gnuradio-receive-sinewave.grc](src/gnuradio-receive-sinewave.grc), was used to receive the transmission.
 
 This is another experiment used to collect data for body vibration and shifting pattern identification and would prove useful in creating a more generalize drone detection mechanism.
 
-Refer to [Experiment 1](Experiment_Outline.md#experiment-plan-1) and [Experiment 2](Experiment_Outline.md#experiment-plan-2)
+More details can be found in [Experiment 1](Experiment_Outline.md#experiment-plan-1) and [Experiment 2](Experiment_Outline.md#experiment-plan-2).
 
 ## 3.3. Wi-Fi Detection
 ### Description
