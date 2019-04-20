@@ -213,6 +213,8 @@ Using passive Wi-Fi monitoring, we were able to identify the presence of a drone
 
 This was tested on a Ubuntu 18.04 laptop, but can also be used on the Jetson.
 
+A very complete list of OUI prefixes compiled by the Wireshark team can be found [here](https://code.wireshark.org/review/gitweb?p=wireshark.git;a=blob_plain;f=manuf).
+
 ### Requirements
 - Python3
 - Root permissions on a Ubuntu 18.04 computer
