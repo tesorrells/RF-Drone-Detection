@@ -160,8 +160,11 @@ With the experiment's data, we attempted to use a FFT see if there is any high f
 Refer to [Experiment 3](Experiment_Outline.md#experiment-plan-3)
 
 ### Description of tools
-#### [hackrf_sweep-collect-data.sh](hackrf_sweep-collect-data.sh)
-#### [hackrf_sweep-process-data.py](hackrf_sweep-process-data.py)
+#### Collecting hackrf_sweep data
+[hackrf_sweep-collect-data.sh](hackrf_sweep-collect-data.sh)
+
+#### Processing hackrf_sweep data
+[hackrf_sweep-process-data.py](hackrf_sweep-process-data.py)
 
 ## 3.2. GNU Radio Experiment
 In an attempt to recreate an experiment described in section 2.3.2 of [the previously mentioned paper](http://www.cs.colorado.edu/~rhan/Papers/p17-nguyen.pdf), we made use of two simple GNU radio scripts and a Hack RF attatched to a drone.
