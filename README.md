@@ -13,7 +13,7 @@ This is the initial release of our drone detection device. Previous releases lea
 - With this version we are releasing a script that is capable of monitoring local wifi activity. Continue reading for usage instruction for `wifi_monitor.py`.
 - This release also came with a large amount of documentation and a clean up of our git branching
 
-### Known issues and proposed fixes
+### Known Issues and Proposed Fixes
 Our method of detection relies on looking at mac addresses in the local area and checking if their OUI matches that of any drone manufacturers. As such, we are vulnerable to any mac address spoofing and risk the chance of having false positives for non-drone devices by these same manufacturers.
 
 One possible solution that could address both of the above problems would be to use a model that can detect noise in the signal that is indicative of drone body vibration. This mechanism as well as experiments that can be used to move forward with this solution are outlined later in this document.
