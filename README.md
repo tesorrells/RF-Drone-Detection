@@ -135,7 +135,7 @@ Part ID Number: 0x######## 0x########
 ```
 
 ## 2.2 GNU Radio Installation
-[GNU Radio](https://www.gnuradio.org/) is an advanced tool used in our detection methodology as described in section 3.2.
+[GNU Radio](https://www.gnuradio.org/) is an advanced tool used in our detection methodology as described in [section 3.2](#32-gnu-radio).
 
 From gnuradio.org:
 >GNU Radio is a free & open-source software development toolkit that provides signal processing blocks to implement software radios. It can be used with readily-available low-cost external RF hardware to create software-defined radios, or without hardware in a simulation-like environment. It is widely used in research, industry, academia, government, and hobbyist environments to support both wireless communications research and real-world radio systems.
