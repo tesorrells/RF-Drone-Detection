@@ -14,7 +14,7 @@ This aim of this project is to research and evaluate different methods for passi
 2. Software Setup
    - 2.1. HackRF One Tools
    - 2.2. GNU Radio
-2. [Detection Methodologies](# 3. Detection Methodologies)
+2. [Detection Methodologies](#3.-detection-methodologies)
    - 3.1. HackRF Sweep
    - 3.2. GNU Radio
    - 3.3. Wi-Fi Detection
