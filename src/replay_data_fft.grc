@@ -389,7 +389,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(896, 500)</value>
+      <value>(1112, 316)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -432,7 +432,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>freq</key>
@@ -440,7 +440,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(360, 188)</value>
+      <value>(360, 300)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -601,7 +601,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(200, 84)</value>
+      <value>(160, 132)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -648,11 +648,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(584, 136)</value>
+      <value>(656, 264)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -703,7 +703,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(384, 36)</value>
+      <value>(440, 100)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -754,7 +754,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(832, 36)</value>
+      <value>(872, 36)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -947,7 +947,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(576, 4)</value>
+      <value>(616, 68)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1030,7 +1030,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1048, 148)</value>
+      <value>(1104, 116)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -1321,7 +1321,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>fftsize</key>
@@ -1616,7 +1616,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1096, 460)</value>
+      <value>(1104, 380)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -2350,7 +2350,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1048, 252)</value>
+      <value>(1104, 212)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -2713,7 +2713,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -3076,7 +3076,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>fftsize</key>
@@ -3084,7 +3084,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(352, 340)</value>
+      <value>(232, 4)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -3351,6 +3351,12 @@
   <connection>
     <source_block_id>blks2_packet_decoder_0_0</source_block_id>
     <sink_block_id>qtgui_time_sink_x_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_file_source_1</source_block_id>
+    <sink_block_id>analog_quadrature_demod_cf_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
