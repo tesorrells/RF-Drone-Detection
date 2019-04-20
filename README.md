@@ -151,9 +151,11 @@ sudo apt-get install gnuradio
 
 It is also possible to [build and install GNU Radio from source](https://wiki.gnuradio.org/index.php/InstallingGRFromSource#Using-the-build-gnuradio-script), although the process is far more complicated and time intensive.
 
-# 3. Detection Methodologies
-## 3.1. HackRF Sweep
+# 3. Detection Methodologies and research
+## 3.1. HackRF Sweep Experiment
+Refer to [Experiment 3](https://github.com/tesorrells/RF-Drone-Detection/blob/master/Experiment_Outline.md#experiment-plan-3)
 ## 3.2. GNU Radio
+Refer to [Experiment 1](https://github.com/tesorrells/RF-Drone-Detection/blob/master/Experiment_Outline.md#experiment-plan-1) and [Experiment 2](https://github.com/tesorrells/RF-Drone-Detection/blob/master/Experiment_Outline.md#experiment-plan-2)
 ## 3.3. Wi-Fi Detection
 ### Requirements
 - Python3
