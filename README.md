@@ -160,8 +160,40 @@ With the experiment's data, we attempted to use a FFT see if there is any high f
 Refer to [Experiment 3](Experiment_Outline.md#experiment-plan-3)
 
 ### Description of tools
-#### Collecting hackrf_sweep data
+#### Collecting hackrf_sweep Data
 [hackrf_sweep-collect-data.sh](src/hackrf_sweep-collect-data.sh)
+
+Runs `hackrf_sweep`  for 60 seconds and prompts the user for a filename to save the CSV data to. It uses the following parameters:
+
+| parameter | value |
+|--|--|
+| freq_min | 2400 (MHz) |
+| freq_max    | 2500 (MHz)   |
+|num_samples   | 8192   |
+|bin_width   | 600000   |
+
+Details can be found in hackrf_sweep's documentation:
+```bash
+$ hackrf_sweep -h    
+Usage:
+	[-h] # this help
+	[-d serial_number] # Serial number of desired HackRF
+	[-a amp_enable] # RX RF amplifier 1=Enable, 0=Disable
+	[-f freq_min:freq_max] # minimum and maximum frequencies in MHz
+	[-p antenna_enable] # Antenna port power, 1=Enable, 0=Disable
+	[-l gain_db] # RX LNA (IF) gain, 0-40dB, 8dB steps
+	[-g gain_db] # RX VGA (baseband) gain, 0-62dB, 2dB steps
+	[-n num_samples] # Number of samples per frequency, 8192-4294967296
+	[-w bin_width] # FFT bin width (frequency resolution) in Hz
+	[-1] # one shot mode
+	[-B] # binary output
+	[-I] # binary inverse FFT output
+	-r filename # output file
+
+Output fields:
+	date, time, hz_low, hz_high, hz_bin_width, num_samples, dB, dB, . . .
+
+```
 
 #### Processing hackrf_sweep data
 [hackrf_sweep-process-data.py](src/hackrf_sweep-process-data.py)
