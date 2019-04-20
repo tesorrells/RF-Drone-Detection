@@ -101,6 +101,8 @@ Although not necessary for our prototyping purposes, the following should be con
 - Create & copy SSH public keys to the Jetson using `ssh-copy-id -i your-key-here jetson-hostname-here` or manually.
 - Configure a firewall, such as `ufw`, as there is none active by default.
 
+# 2. Software Setup
+
 ## 2.1 HackRF One Tools Installation
 `hackrf_sweep` is a tool provided by the creators of the HackRF One that scans a given frequency range and outputs the measurements as a comma separated value (csv) file.
 
@@ -148,3 +150,8 @@ sudo apt-get install gnuradio
 > Details for other distributions/OS's can be found on the [GNU Radio Wiki](https://wiki.gnuradio.org/index.php/InstallingGR)
 
 It is also possible to [build and install GNU Radio from source](https://wiki.gnuradio.org/index.php/InstallingGRFromSource#Using-the-build-gnuradio-script), although the process is far more complicated and time intensive.
+
+# 3. Detection Methodologies
+## 3.1. HackRF Sweep
+## 3.2. GNU Radio
+## 3.3. Wi-Fi Detection
