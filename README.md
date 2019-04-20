@@ -155,14 +155,6 @@ It is also possible to [build and install GNU Radio from source](https://wiki.gn
 ## 3.1. HackRF Sweep
 ## 3.2. GNU Radio
 ## 3.3. Wi-Fi Detection
-### Description
-[wifi_monitor.py](src/wifi_monitor.py)
-
-```bash
-$ sudo python3 ./wifi_monitor.py wlan0
-```
-wifi_monitor.py will put the wireless card into monitor mode and begin listening for broadcasts that match one of the masks in `oui_list`. Currently, it listens for MAC addresses that start with `62:60:1F` or `60:60:1F` (which belong to DJI).
-
 ### Requirements
 - Python3
 - Root permissions
@@ -171,6 +163,13 @@ wifi_monitor.py will put the wireless card into monitor mode and begin listening
 	- https://aircrack-ng.org/
 - Wifi Adapter capable of [**monitor mode**]([https://aircrack-ng.org/doku.php?id=compatible_cards)
 	- Tested with TP-Link TLWN722N (FCC ID: TE7WNN722N), which is 2.4Ghz only.
+### Description
+[wifi_monitor.py](src/wifi_monitor.py)
+
+```bash
+$ sudo python3 ./wifi_monitor.py wlan0
+```
+wifi_monitor.py will put the wireless card into monitor mode and begin listening for broadcasts that match one of the masks in `oui_list`. Currently, it listens for MAC addresses that start with `62:60:1F` or `60:60:1F` (which belong to DJI).
 
 ### Usage
 Airodump-ng and Airmon-ng require that wifi_monitor.py be run with root permissions.
