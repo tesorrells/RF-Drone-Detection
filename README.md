@@ -161,10 +161,10 @@ Refer to [Experiment 3](Experiment_Outline.md#experiment-plan-3)
 
 ### Description of tools
 #### Collecting hackrf_sweep data
-[hackrf_sweep-collect-data.sh](hackrf_sweep-collect-data.sh)
+[hackrf_sweep-collect-data.sh](src/hackrf_sweep-collect-data.sh)
 
 #### Processing hackrf_sweep data
-[hackrf_sweep-process-data.py](hackrf_sweep-process-data.py)
+[hackrf_sweep-process-data.py](src/hackrf_sweep-process-data.py)
 
 ## 3.2. GNU Radio Experiment
 In an attempt to recreate an experiment described in section 2.3.2 of [the previously mentioned paper](http://www.cs.colorado.edu/~rhan/Papers/p17-nguyen.pdf), we made use of two simple GNU radio scripts and a Hack RF attatched to a drone.
