@@ -11,7 +11,7 @@ This aim of this project is to research and evaluate different methods for passi
 
 1. Hardware Setup
    - 1.1. Nvidia Jetson Tegra TK1 - *only necessary if deploying a sensor in the future*
-2. Software Setup
+2. [Software Setup](#2-software-setup)
    - 2.1. HackRF One Tools
    - 2.2. GNU Radio
 2. [Detection Methodologies](#3-detection-methodologies)
