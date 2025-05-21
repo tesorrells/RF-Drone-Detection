@@ -18,6 +18,12 @@ class Airodumper:
     oui_list = [
         "62:60:1F",  # dji
         "60:60:1F",  # dji
+        "A0:14:3D",  # PARROT SA
+        "90:3A:E6",  # PARROT SA
+        "90:03:B7",  # PARROT SA
+        "00:26:7E",  #PARROT SA
+        "00:12:1C",  #PARROT SA 
+        "38:1D:14",  #Skydio Inc.
     ]  # todo consider moving to file containing drone mac OUIs
 
     def __init__(self):
